@@ -3,356 +3,964 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pa Mwera | Marketplace Social</title>
+  <title>Pa Mwera | Powerful Marketing</title>
   <style>
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
     body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      background: #fff;
-      color: #333;
+      background: linear-gradient(135deg, #c70000, #f44336);
+      color: #fff;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
+
     header {
-      background-color: #c70000;
-      color: white;
-      text-align: center;
-      padding: 2rem 0;
-      font-size: 3rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-    }
-    main {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 0 20px;
-    }
-    #userInfo {
-      margin-bottom: 1rem;
+      padding: 1.5rem 2rem;
+      background: rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    #userName {
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #c70000;
+
+    header h1 {
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
     }
-    button {
-      background-color: #c70000;
+
+    nav a {
       color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 8px;
-      cursor: pointer;
+      text-decoration: none;
       font-weight: 600;
-      transition: background-color 0.3s ease;
+      margin-left: 2rem;
+      transition: color 0.3s ease;
     }
-    button:hover {
-      background-color: #a80000;
+    nav a:hover {
+      color: #ffe600;
     }
-    #appSection input[type="text"],
-    #appSection input[type="number"],
-    #appSection textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      font-size: 1rem;
-      font-family: inherit;
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 1rem;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(6px);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
     }
-    #appSection textarea {
-      resize: vertical;
+
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 12px #fff;
     }
-    #postMessage {
-      margin-top: 0.5rem;
-      font-weight: 600;
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 6px rgba(0,0,0,0.5);
     }
-    .post {
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      padding: 15px;
-      margin: 15px 0;
-      background: #fff0f0;
-      box-shadow: 1px 1px 5px rgba(199, 0, 0, 0.2);
-    }
-    .post .postUser {
-      font-weight: bold;
+
+    .btn-primary {
+      background: #ffe600;
       color: #c70000;
-      margin-bottom: 8px;
-    }
-    .post .postText {
-      margin-bottom: 8px;
+      padding: 1rem 3rem;
+      border-radius: 50px;
+      font-weight: 700;
       font-size: 1.1rem;
-    }
-    .post img, .post video {
-      max-width: 100%;
-      border-radius: 10px;
-      margin-bottom: 8px;
-    }
-    .marketplaceInfo div {
-      margin: 3px 0;
-    }
-    .likeBtn {
-      background-color: transparent;
-      border: none;
       cursor: pointer;
+      box-shadow: 0 4px 12px #ffd500cc;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #ffc800;
+      box-shadow: 0 6px 18px #ffbb0088;
+      transform: scale(1.05);
+    }
+
+    main {
+      background: white;
+      color: #333;
+      padding: 4rem 1rem 6rem;
+      border-radius: 30px 30px 0 0;
+      margin-top: -60px;
+      box-shadow: 0 -10px 40px rgba(199, 0, 0, 0.4);
+    }
+
+    section {
+      max-width: 960px;
+      margin: 0 auto 4rem;
+      text-align: center;
+    }
+
+    section h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
       color: #c70000;
-      font-weight: bold;
-      margin-right: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
-    .liked {
-      color: #a80000;
+
+    section p {
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      color: #555;
     }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: #fff4f4;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(199,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 24px rgba(199,0,0,0.35);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #c70000;
+    }
+
+    .testimonials {
+      background: #c70000;
+      color: white;
+      padding: 3rem 1rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 30px #ff000099;
+    }
+
+    .testimonial {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-style: italic;
+      font-weight: 600;
+      text-shadow: 0 0 3px #5a0000;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, textarea {
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      border-radius: 8px;
+      border: 2px solid #c70000;
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #ff8a00;
+    }
+
+    button[type="submit"] {
+      background: #c70000;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: #a00000;
+    }
+
+    footer {
+      background: #c70000;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: inset 0 3px 10px #7f0000;
+      margin-top: auto;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+    }
+
   </style>
 </head>
 <body>
 
-<header>🔥 Pa Mwera</header>
+  <header>
+    <h1>Pa Mwera</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-<main>
-  <div id="userInfo">
-    <span>Logged in as: <span id="userName">Guest</span></span>
-    <button id="logoutBtn" style="display:none;">Logout</button>
-  </div>
-
-  <section id="appSection" style="display:none;">
-    <input id="itemName" type="text" placeholder="Item Name" />
-    <input id="itemPrice" type="number" min="0" step="0.01" placeholder="Price (e.g., 100.00)" />
-    <input id="itemLocation" type="text" placeholder="Location" />
-    <input id="itemContact" type="text" placeholder="Contact Info (phone/email)" />
-    <textarea id="postText" placeholder="What are you selling?" rows="3"></textarea>
-    <input id="postMedia" type="file" accept="image/*,video/*" />
-    <button id="postBtn">Post</button>
-    <p id="postMessage"></p>
+  <section class="hero" id="hero">
+    <h2>Your Gateway to Powerful Marketing</h2>
+    <p>Reach more customers, boost your sales, and build a lasting brand with Pa Mwera’s marketing solutions.</p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      Get Started Now
+    </button>
   </section>
 
-  <section id="postsSection"></section>
-</main>
+  <main>
+    <section id="features">
+      <h3>Why Choose Pa Mwera?</h3>
+      <p>Our all-in-one marketing platform provides tools and support designed to make your business stand out and thrive.</p>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h4>Boost Sales Fast</h4>
+          <p>Smart marketing strategies that deliver real results and increase your revenue quickly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h4>Targeted Campaigns</h4>
+          <p>Reach the right audience with personalized campaigns that convert prospects into customers.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h4>Real-time Analytics</h4>
+          <p>Track your progress and optimize campaigns with detailed insights and reports.</p>
+        </div>
+      </div>
+    </section>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-  import {
-    getFirestore,
-    collection,
-    addDoc,
-    onSnapshot,
-    query,
-    orderBy,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
-  import {
-    getStorage,
-    ref,
-    uploadBytes,
-    getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js";
+    <section id="testimonials" class="testimonials">
+      <h3>What Our Clients Say</h3>
+      <p class="testimonial">"Pa Mwera transformed our business — our sales doubled in just 3 months! Highly recommend their services."</p>
+      <p class="testimonial">"The targeted campaigns helped us connect with customers like never before. Fantastic support too!"</p>
+    </section>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyC92g51j4qHlLgvf1GBHJfR58BlJ5rg7JQ",
-    authDomain: "pa-mwera-social.firebaseapp.com",
-    projectId: "pa-mwera-social",
-    storageBucket: "pa-mwera-social.appspot.com",  // THIS MUST BE '.appspot.com'
-    messagingSenderId: "255473977095",
-    appId: "1:255473977095:web:ef6afedb928070f60027a2"
-  };
+    <section id="contact">
+      <h3>Get in Touch</h3>
+      <p>Have questions or ready to grow your business? Send us a message!</p>
+      <form id="contactForm">
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+        <input type="email" id="email" name="email" placeholder="Your Email" required />
+        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p id="formStatus" style="text-align:center; margin-top:1rem;"></p>
+    </section>
+  </main>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
+  <footer>
+    &copy; 2025 Pa Mwera. All rights reserved.
+  </footer>
 
-  const userNameSpan = document.getElementById("userName");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const appSection = document.getElementById("appSection");
-  const postsSection = document.getElementById("postsSection");
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
 
-  const itemNameInput = document.getElementById("itemName");
-  const itemPriceInput = document.getElementById("itemPrice");
-  const itemLocationInput = document.getElementById("itemLocation");
-  const itemContactInput = document.getElementById("itemContact");
-  const postText = document.getElementById("postText");
-  const postMedia = document.getElementById("postMedia");
-  const postBtn = document.getElementById("postBtn");
-  const postMessage = document.getElementById("postMessage");
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
 
-  function clearPostInputs() {
-    itemNameInput.value = "";
-    itemPriceInput.value = "";
-    itemLocationInput.value = "";
-    itemContactInput.value = "";
-    postText.value = "";
-    postMedia.value = "";
-  }
+      const name = contactForm.name.value.trim();
+      const email = contactForm.email.value.trim();
+      const message = contactForm.message.value.trim();
 
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      userNameSpan.textContent = user.email || "User";
-      appSection.style.display = "block";
-      logoutBtn.style.display = "inline-block";
-      loadPosts();
-    } else {
-      userNameSpan.textContent = "Guest";
-      appSection.style.display = "none";
-      logoutBtn.style.display = "none";
-      postsSection.innerHTML = "";
-    }
-  });
-
-  logoutBtn.addEventListener("click", async () => {
-    await signOut(auth);
-  });
-
-  postBtn.addEventListener("click", async () => {
-    postMessage.style.color = "red";
-
-    const text = postText.value.trim();
-    const mediaFile = postMedia.files[0];
-
-    const itemName = itemNameInput.value.trim();
-    const itemPrice = itemPriceInput.value.trim();
-    const itemLocation = itemLocationInput.value.trim();
-    const itemContact = itemContactInput.value.trim();
-
-    if (!text && !mediaFile) {
-      postMessage.textContent = "Please add text or media to post.";
-      return;
-    }
-    if (!itemName) {
-      postMessage.textContent = "Please enter the item name.";
-      return;
-    }
-    if (!itemPrice || isNaN(parseFloat(itemPrice)) || parseFloat(itemPrice) < 0) {
-      postMessage.textContent = "Please enter a valid price.";
-      return;
-    }
-    if (!itemLocation) {
-      postMessage.textContent = "Please enter the location.";
-      return;
-    }
-    if (!itemContact) {
-      postMessage.textContent = "Please enter contact information.";
-      return;
-    }
-
-    postBtn.disabled = true;
-    postMessage.textContent = "Posting...";
-
-    let mediaURL = "";
-    let mediaType = "";
-
-    try {
-      if (mediaFile) {
-        const mediaRef = ref(storage, `posts/${auth.currentUser.uid}/${Date.now()}_${mediaFile.name}`);
-        console.log("Uploading media to:", mediaRef.fullPath);
-        await uploadBytes(mediaRef, mediaFile);
-        mediaURL = await getDownloadURL(mediaRef);
-        mediaType = mediaFile.type.startsWith("video") ? "video" : "image";
-        console.log("Media uploaded, URL:", mediaURL);
-      }
-
-      await addDoc(collection(db, "posts"), {
-        userId: auth.currentUser.uid,
-        userName: userNameSpan.textContent,
-        text: text,
-        mediaURL: mediaURL,
-        mediaType: mediaType,
-        itemName: itemName,
-        itemPrice: parseFloat(itemPrice),
-        itemLocation: itemLocation,
-        itemContact: itemContact,
-        likes: [],
-        comments: [],
-        createdAt: serverTimestamp()
-      });
-
-      postMessage.style.color = "green";
-      postMessage.textContent = "Post created!";
-      clearPostInputs();
-    } catch (error) {
-      console.error("Error posting:", error);
-      postMessage.textContent = "Error posting: " + error.message;
-    } finally {
-      postBtn.disabled = false;
-    }
-  });
-
-  function loadPosts() {
-    postsSection.innerHTML = "Loading posts...";
-    const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-
-    onSnapshot(postsQuery, snapshot => {
-      postsSection.innerHTML = "";
-      if (snapshot.empty) {
-        postsSection.textContent = "No posts yet.";
+      if (!name || !email || !message) {
+        formStatus.style.color = 'red';
+        formStatus.textContent = 'Please fill in all fields.';
         return;
       }
 
-      snapshot.forEach(docSnap => {
-        const post = docSnap.data();
-        const postDiv = document.createElement("div");
-        postDiv.classList.add("post");
+      // Simulate sending message (you'd connect this to your backend or email service)
+      formStatus.style.color = 'green';
+      formStatus.textContent = `Thanks, ${name}! Your message has been sent.`;
 
-        const userDiv = document.createElement("div");
-        userDiv.classList.add("postUser");
-        userDiv.textContent = post.userName;
-        postDiv.appendChild(userDiv);
-
-        if (post.text) {
-          const textDiv = document.createElement("div");
-          textDiv.classList.add("postText");
-          textDiv.textContent = post.text;
-          postDiv.appendChild(textDiv);
-        }
-
-        if (post.mediaURL) {
-          if (post.mediaType === "image") {
-            const img = document.createElement("img");
-            img.src = post.mediaURL;
-            postDiv.appendChild(img);
-          } else if (post.mediaType === "video") {
-            const video = document.createElement("video");
-            video.src = post.mediaURL;
-            video.controls = true;
-            postDiv.appendChild(video);
-          }
-        }
-
-        const marketDiv = document.createElement("div");
-        marketDiv.classList.add("marketplaceInfo");
-        if (post.itemName) {
-          const itemNameDiv = document.createElement("div");
-          itemNameDiv.textContent = `Item: ${post.itemName}`;
-          marketDiv.appendChild(itemNameDiv);
-        }
-        if (post.itemPrice !== undefined) {
-          const priceDiv = document.createElement("div");
-          priceDiv.textContent = `Price: $${post.itemPrice.toFixed(2)}`;
-          marketDiv.appendChild(priceDiv);
-        }
-        if (post.itemLocation) {
-          const locationDiv = document.createElement("div");
-          locationDiv.textContent = `Location: ${post.itemLocation}`;
-          marketDiv.appendChild(locationDiv);
-        }
-        if (post.itemContact) {
-          const contactDiv = document.createElement("div");
-          contactDiv.textContent = `Contact: ${post.itemContact}`;
-          marketDiv.appendChild(contactDiv);
-        }
-        postDiv.appendChild(marketDiv);
-
-        postsSection.appendChild(postDiv);
-      });
+      contactForm.reset();
     });
-  }
-</script>
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pa Mwera | Powerful Marketing</title>
+  <style>
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
 
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #c70000, #f44336);
+      color: #fff;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      background: rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 2rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #ffe600;
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 1rem;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(6px);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 12px #fff;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 6px rgba(0,0,0,0.5);
+    }
+
+    .btn-primary {
+      background: #ffe600;
+      color: #c70000;
+      padding: 1rem 3rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px #ffd500cc;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #ffc800;
+      box-shadow: 0 6px 18px #ffbb0088;
+      transform: scale(1.05);
+    }
+
+    main {
+      background: white;
+      color: #333;
+      padding: 4rem 1rem 6rem;
+      border-radius: 30px 30px 0 0;
+      margin-top: -60px;
+      box-shadow: 0 -10px 40px rgba(199, 0, 0, 0.4);
+    }
+
+    section {
+      max-width: 960px;
+      margin: 0 auto 4rem;
+      text-align: center;
+    }
+
+    section h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #c70000;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    section p {
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      color: #555;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: #fff4f4;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(199,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 24px rgba(199,0,0,0.35);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #c70000;
+    }
+
+    .testimonials {
+      background: #c70000;
+      color: white;
+      padding: 3rem 1rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 30px #ff000099;
+    }
+
+    .testimonial {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-style: italic;
+      font-weight: 600;
+      text-shadow: 0 0 3px #5a0000;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, textarea {
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      border-radius: 8px;
+      border: 2px solid #c70000;
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #ff8a00;
+    }
+
+    button[type="submit"] {
+      background: #c70000;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: #a00000;
+    }
+
+    footer {
+      background: #c70000;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: inset 0 3px 10px #7f0000;
+      margin-top: auto;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Pa Mwera</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+    <h2>Your Gateway to Powerful Marketing</h2>
+    <p>Reach more customers, boost your sales, and build a lasting brand with Pa Mwera’s marketing solutions.</p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      Get Started Now
+    </button>
+  </section>
+
+  <main>
+    <section id="features">
+      <h3>Why Choose Pa Mwera?</h3>
+      <p>Our all-in-one marketing platform provides tools and support designed to make your business stand out and thrive.</p>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h4>Boost Sales Fast</h4>
+          <p>Smart marketing strategies that deliver real results and increase your revenue quickly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h4>Targeted Campaigns</h4>
+          <p>Reach the right audience with personalized campaigns that convert prospects into customers.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h4>Real-time Analytics</h4>
+          <p>Track your progress and optimize campaigns with detailed insights and reports.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+      <h3>What Our Clients Say</h3>
+      <p class="testimonial">"Pa Mwera transformed our business — our sales doubled in just 3 months! Highly recommend their services."</p>
+      <p class="testimonial">"The targeted campaigns helped us connect with customers like never before. Fantastic support too!"</p>
+    </section>
+
+    <section id="contact">
+      <h3>Get in Touch</h3>
+      <p>Have questions or ready to grow your business? Send us a message!</p>
+      <form id="contactForm">
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+        <input type="email" id="email" name="email" placeholder="Your Email" required />
+        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p id="formStatus" style="text-align:center; margin-top:1rem;"></p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Pa Mwera. All rights reserved.
+  </footer>
+
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = contactForm.name.value.trim();
+      const email = contactForm.email.value.trim();
+      const message = contactForm.message.value.trim();
+
+      if (!name || !email || !message) {
+        formStatus.style.color = 'red';
+        formStatus.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      // Simulate sending message (you'd connect this to your backend or email service)
+      formStatus.style.color = 'green';
+      formStatus.textContent = `Thanks, ${name}! Your message has been sent.`;
+
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pa Mwera | Powerful Marketing</title>
+  <style>
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    /* Reset */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #c70000, #f44336);
+      color: #fff;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      background: rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 2rem;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #ffe600;
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 1rem;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(6px);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 12px #fff;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 6px rgba(0,0,0,0.5);
+    }
+
+    .btn-primary {
+      background: #ffe600;
+      color: #c70000;
+      padding: 1rem 3rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px #ffd500cc;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #ffc800;
+      box-shadow: 0 6px 18px #ffbb0088;
+      transform: scale(1.05);
+    }
+
+    main {
+      background: white;
+      color: #333;
+      padding: 4rem 1rem 6rem;
+      border-radius: 30px 30px 0 0;
+      margin-top: -60px;
+      box-shadow: 0 -10px 40px rgba(199, 0, 0, 0.4);
+    }
+
+    section {
+      max-width: 960px;
+      margin: 0 auto 4rem;
+      text-align: center;
+    }
+
+    section h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #c70000;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    section p {
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      color: #555;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: #fff4f4;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 4px 16px rgba(199,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 24px rgba(199,0,0,0.35);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #c70000;
+    }
+
+    .testimonials {
+      background: #c70000;
+      color: white;
+      padding: 3rem 1rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 30px #ff000099;
+    }
+
+    .testimonial {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-style: italic;
+      font-weight: 600;
+      text-shadow: 0 0 3px #5a0000;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+
+    input, textarea {
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      border-radius: 8px;
+      border: 2px solid #c70000;
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #ff8a00;
+    }
+
+    button[type="submit"] {
+      background: #c70000;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: #a00000;
+    }
+
+    footer {
+      background: #c70000;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: inset 0 3px 10px #7f0000;
+      margin-top: auto;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Pa Mwera</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+    <h2>Your Gateway to Powerful Marketing</h2>
+    <p>Reach more customers, boost your sales, and build a lasting brand with Pa Mwera’s marketing solutions.</p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+      Get Started Now
+    </button>
+  </section>
+
+  <main>
+    <section id="features">
+      <h3>Why Choose Pa Mwera?</h3>
+      <p>Our all-in-one marketing platform provides tools and support designed to make your business stand out and thrive.</p>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h4>Boost Sales Fast</h4>
+          <p>Smart marketing strategies that deliver real results and increase your revenue quickly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h4>Targeted Campaigns</h4>
+          <p>Reach the right audience with personalized campaigns that convert prospects into customers.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h4>Real-time Analytics</h4>
+          <p>Track your progress and optimize campaigns with detailed insights and reports.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+      <h3>What Our Clients Say</h3>
+      <p class="testimonial">"Pa Mwera transformed our business — our sales doubled in just 3 months! Highly recommend their services."</p>
+      <p class="testimonial">"The targeted campaigns helped us connect with customers like never before. Fantastic support too!"</p>
+    </section>
+
+    <section id="contact">
+      <h3>Get in Touch</h3>
+      <p>Have questions or ready to grow your business? Send us a message!</p>
+      <form id="contactForm">
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+        <input type="email" id="email" name="email" placeholder="Your Email" required />
+        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p id="formStatus" style="text-align:center; margin-top:1rem;"></p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Pa Mwera. All rights reserved.
+  </footer>
+
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const name = contactForm.name.value.trim();
+      const email = contactForm.email.value.trim();
+      const message = contactForm.message.value.trim();
+
+      if (!name || !email || !message) {
+        formStatus.style.color = 'red';
+        formStatus.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      // Simulate sending message (you'd connect this to your backend or email service)
+      formStatus.style.color = 'green';
+      formStatus.textContent = `Thanks, ${name}! Your message has been sent.`;
+
+      contactForm.reset();
+    });
+  </script>
 </body>
 </html>
