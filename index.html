@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pa Mwera Social Starter</title>
+<style>
+  body { font-family: Arial, sans-serif; background:#f9f9f9; margin:0; padding:0;}
+  header { background:#c70000; color:#fff; padding:15px; text-align:center; font-size:24px; font-weight:bold; }
+  #authSection, #profileSection, #feedSection { max-width:600px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+  input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; }
+  button { background:#c70000; color:#fff; border:none; cursor:pointer; font-weight:bold; font-size:16px; border-radius:5px;}
+  button:hover { background:#a60000; }
+  #posts { margin-top:20px; }
+  .post { border-bottom:1px solid #eee; padding:10px 0; }
+  .post img { max-width:100%; border-radius:5px; }
+  .profile-pic { width:50px; height:50px; border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:10px; }
+  .username { font-weight:bold; vertical-align:middle; }
+  .logout-btn { background:#444; margin-top:10px; }
+</style>
+</head>
+<body>
+
+<header>🔥 Pa Mwera Social Starter</header>
+
+<div id="authSection">
+  <h2>Sign Up / Login</h2>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password (min 6 chars)" />
+  <input type="text" id="phone" placeholder="Phone Number (with country code, e.g. +260)" />
+  <button id="signupBtn">Sign Up</button>
+  <button id="loginBtn">Log In</button>
+  <button id="phoneLoginBtn">Login with Phone</button>
+  <div id="recaptcha-container"></div>
+  <p id="authMessage"></p>
+</div>
+
+<div id="profileSection" style="display:none;">
+  <h2>Complete Your Profile</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="file" id="profilePicInput" accept="image/*" />
+  <button id="saveProfileBtn">Save Profile</button>
+  <button id="logoutBtn" class="logout-btn">Log Out</button>
+  <p id="profileMessage"></p>
+</div>
+
+<div id="feedSection" style="display:none;">
+  <h2>Post to Feed</h2>
+  <textarea id="postText" placeholder="What's on your mind?" rows="3"></textarea>
+  <input type="file" id="postImageInput" accept="image/*" />
+  <button id="postBtn">Post</button>
+  <div id="postMessage"></div>
+
+  <h3>Feed</h3>
+  <div id="posts"></div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
+    onAuthStateChanged, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js";
+
+  // Your Firebase config (replace with your actual config)
+  const firebaseConfig = {
+    apiKey: "AIzaSyC92g51j4qHlLgvf1GBHJfR58BlJ5rg7JQ",
+    authDomain: "pa-mwera-social.firebaseapp.com",
+    projectId: "pa-mwera-social",
+    storageBucket: "pa-mwera-social.appspot.com",
+    messagingSenderId: "255473977095",
+    appId: "1:255473977095:web:f00d408a2f9693040027a2"
+  };
+
+  // Init Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  // DOM elements
+  const authSection = document.getElementById('authSection');
+  const profileSection = document.getElementById('profileSection');
+  const feedSection = document.getElementById('feedSection');
+  const authMessage = document.getElementById('authMessage');
+  const profileMessage = document.getElementById('profileMessage');
+  const postMessage = document.getElementById('postMessage');
+
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const phoneInput = document.getElementById('phone');
+  const usernameInput = document.getElementById('username');
+  const profilePicInput = document.getElementById('profilePicInput');
+  const postText = document.getElementById('postText');
+  const postImageInput = document.getElementById('postImageInput');
+
+  // Recaptcha verifier for phone login
+  window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+    'size': 'invisible',
+    'callback': (response) => {
+      // reCAPTCHA solved, allow signInWithPhoneNumber.
+    }
+  }, auth);
+
+  // State variables
+  let currentUser = null;
+  let currentUserProfile = null;
+
+  // Show/hide sections helpers
+  function showSection(section) {
+    authSection.style.display = 'none';
+    profileSection.style.display = 'none';
+    feedSection.style.display = 'none';
+    section.style.display = 'block';
+  }
+
+  // Authentication handlers
+  document.getElementById('signupBtn').onclick = async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    authMessage.style.color = 'red';
+    if (!email || !password) {
+      authMessage.textContent = 'Email and password required.';
+      return;
+    }
+    if (password.length < 6) {
+      authMessage.textContent = 'Password must be at least 6 characters.';
+      return;
+    }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      currentUser = userCredential.user;
+      authMessage.style.color = 'green';
+      authMessage.textContent = 'Account created. Please complete your profile.';
+      showSection(profileSection);
+    } catch (e) {
+      authMessage.textContent = e.message;
+    }
+  };
+
+  document.getElementById('loginBtn').onclick = async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    authMessage.style.color = 'red';
+    if (!email || !password) {
+      authMessage.textContent = 'Email and password required.';
+      return;
+    }
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      currentUser = userCredential.user;
+      authMessage.style.color = 'green';
+      authMessage.textContent = 'Logged in successfully.';
+      await loadUserProfile(currentUser.uid);
+      showSection(feedSection);
+    } catch (e) {
+      authMessage.textContent = e.message;
+    }
+  };
+
+  document.getElementById('phoneLoginBtn').onclick = async () => {
+    const phoneNumber = phoneInput.value.trim();
+    authMessage.style.color = 'red';
+    if (!phoneNumber) {
+      authMessage.textContent = 'Enter phone number with country code.';
+      return;
+    }
+    try {
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+      window.confirmationResult = confirmationResult;
+      const code = prompt('Enter the verification code you received by SMS:');
+      if (!code) {
+        authMessage.textContent = 'Verification code is required.';
+        return;
+      }
+      const userCredential = await confirmationResult.confirm(code);
+      currentUser = userCredential.user;
+      authMessage.style.color = 'green';
+      authMessage.textContent = 'Phone login successful. Please complete your profile if first time.';
+      await loadUserProfile(currentUser.uid);
+      if (!currentUserProfile) {
+        showSection(profileSection);
+      } else {
+        showSection(feedSection);
+      }
+    } catch (e) {
+      authMessage.textContent = e.message;
+    }
+  };
+
+  // Save profile
+  document.getElementById('saveProfileBtn').onclick = async () => {
+    const username = usernameInput.value.trim();
+    if (!username) {
+      profileMessage.style.color = 'red';
+      profileMessage.textContent = 'Username is required.';
+      return;
+    }
+    profileMessage.textContent = '';
+    try {
+      let profilePicUrl = null;
+      if (profilePicInput.files.length > 0) {
+        const file = profilePicInput.files[0];
+        const storageRef = ref(storage, `profilePics/${currentUser.uid}/${file.name}`);
+        await uploadBytes(storageRef, file);
+        profilePicUrl = await getDownloadURL(storageRef);
+      }
+      await setDoc(doc(db, 'users', currentUser.uid), {
+        username,
+        profilePicUrl,
+        email: currentUser.email || null,
+        phoneNumber: currentUser.phoneNumber || null,
+        createdAt: new Date()
+      });
+      profileMessage.style.color = 'green';
+      profileMessage.textContent = 'Profile saved!';
+      await loadUserProfile(currentUser.uid);
+      showSection(feedSection);
+      loadPosts();
+    } catch (e) {
+      profileMessage.style.color = 'red';
+      profileMessage.textContent = e.message;
+    }
+  };
+
+  // Logout
+  document.getElementById('logoutBtn').onclick = async () => {
+    await signOut(auth);
+    currentUser = null;
+    currentUserProfile = null;
+    authMessage.textContent = '';
+    profileMessage.textContent = '';
+    postMessage.textContent = '';
+    emailInput.value = '';
+    passwordInput.value = '';
+    phoneInput.value = '';
+    usernameInput.value = '';
+    postText.value = '';
+    postImageInput.value = '';
+    showSection(authSection);
+  };
+
+  // Load user profile
+  async function loadUserProfile(uid) {
+    const docSnap = await getDoc(doc(db, 'users', uid));
+    if (docSnap.exists()) {
+      currentUserProfile = docSnap.data();
+      usernameInput.value = currentUserProfile.username || '';
+    } else {
+      currentUserProfile = null;
+    }
+  }
+
+  // Posting to feed
+  document.getElementById('postBtn').onclick = async () => {
+    const text = postText.value.trim();
+    postMessage.style.color = 'red';
+    if (!text && postImageInput.files.length === 0) {
+      postMessage.textContent = 'Enter text or select an image to post.';
+      return;
+    }
+    postMessage.textContent = '';
+    try {
+      let imageUrl = null;
+      if (postImageInput.files.length > 0) {
+        const file = postImageInput.files[0];
+        const storageRef = ref(storage, `posts/${currentUser.uid}/${Date.now()}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        imageUrl = await getDownloadURL(storageRef);
+      }
+      await addDoc(collection(db, 'posts'), {
+        userId: currentUser.uid,
+        username: currentUserProfile.username || 'Unknown',
+        profilePicUrl: currentUserProfile.profilePicUrl || null,
+        text,
+        imageUrl,
+        createdAt: new Date()
+      });
+      postMessage.style.color = 'green';
+      postMessage.textContent = 'Posted successfully!';
+      postText.value = '';
+      postImageInput.value = '';
+    } catch (e) {
+      postMessage.style.color = 'red';
+      postMessage.textContent = e.message;
+    }
+  };
+
+  // Load posts and display feed
+  function loadPosts() {
+    const postsDiv = document.getElementById('posts');
+    postsDiv.innerHTML = '';
+    const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
+    onSnapshot(q, (snapshot) => {
+      postsDiv.innerHTML = '';
+      snapshot.forEach(doc => {
+        const post = doc.data();
+        const postEl = document.createElement('div');
+        postEl.className = 'post';
+        postEl.innerHTML = `
+          <div>
+            <img src="${post.profilePicUrl || 'https://via.placeholder.com/50'}" class="profile-pic" alt="profile"/>
+            <span class="username">${post.username}</span>
+            <small style="float:right;color:#999;">${post.createdAt.toDate().toLocaleString()}</small>
+          </div>
+          <p>${post.text || ''}</p>
+          ${post.imageUrl ? `<img src="${post.imageUrl}" alt="post image" />` : ''}
+        `;
+        postsDiv.appendChild(postEl);
+      });
+    });
+  }
+
+  // On app start, check auth state
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUser = user;
+      await loadUserProfile(user.uid);
+      if (currentUserProfile) {
+        showSection(feedSection);
+        loadPosts();
+      } else {
+        showSection(profileSection);
+      }
+    } else {
+      showSection(authSection);
+    }
+  });
+
+</script>
+
+</body>
+</html>
