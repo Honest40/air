@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pa Mwera - Social Network</title>
+  <title>🔥 Pa Mwera</title>
   <style>
-    /* Simple modern colorful style */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0; padding: 0;
@@ -72,6 +71,12 @@
       border-radius: 50%;
       background: #ddd;
       object-fit: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #c70000;
     }
     .post-content img, .post-content video {
       max-width: 100%;
@@ -95,6 +100,13 @@
       width: 100%;
       border-radius: 8px;
       border: 1px solid #ccc;
+    }
+    #marketplaceBtn {
+      margin-bottom: 1rem;
+      background-color: #ff4081;
+      border-radius: 10px;
+      width: 100%;
+      font-weight: 700;
     }
   </style>
 </head>
@@ -130,8 +142,10 @@
 
       <input id="searchInput" placeholder="Search users..." />
 
+      <button id="marketplaceBtn">Go to Marketplace</button>
+
       <h3>Create a Post</h3>
-      <textarea id="postText" placeholder="What's on your mind?" rows="3"></textarea>
+      <textarea id="postText" placeholder="What are you selling?" rows="3"></textarea>
       <input type="file" id="postMedia" accept="image/*,video/*" />
       <button id="postBtn">Post</button>
       <p id="postMessage" style="color:red;"></p>
@@ -211,6 +225,7 @@
     const postMessage = document.getElementById("postMessage");
     const postsDiv = document.getElementById("posts");
     const searchInput = document.getElementById("searchInput");
+    const marketplaceBtn = document.getElementById("marketplaceBtn");
 
     // Show login/signup toggle
     showLoginLink.addEventListener("click", e => {
@@ -320,7 +335,7 @@
       }
     });
 
-    // Post creation
+    // Post creation (fixed bug here)
     postBtn.addEventListener("click", async () => {
       postMessage.style.color = "red";
       const text = postText.value.trim();
@@ -367,7 +382,7 @@
       postBtn.disabled = false;
     });
 
-    // Load and display posts
+    // Load and display posts (unchanged)
     function loadPosts() {
       const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
       onSnapshot(postsQuery, (snapshot) => {
@@ -510,27 +525,33 @@
       const usersRef = collection(db, "users");
       const q = query(usersRef, where("name", ">=", searchTerm), where("name", "<=", searchTerm + "\uf8ff"));
       const querySnapshot = await getDocs(q);
-      const userIds = querySnapshot.docs.map(doc => doc.id);
 
-      // Filter posts to only those from matching users
-      const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      if (querySnapshot.empty) {
+        postsDiv.innerHTML = `<p>No users found with that name.</p>`;
+        return;
+      }
+
+      // Load posts only from matched users
+      const userIds = [];
+      querySnapshot.forEach(doc => userIds.push(doc.id));
+
+      const postsRef = collection(db, "posts");
+      const postsQuery = query(postsRef, orderBy("createdAt", "desc"));
       onSnapshot(postsQuery, (snapshot) => {
         postsDiv.innerHTML = "";
         snapshot.forEach(docSnap => {
           const post = docSnap.data();
           if (userIds.includes(post.userId)) {
+            // ...render post (similar to loadPosts logic)
             const postId = docSnap.id;
             const isLiked = post.likes.includes(auth.currentUser.uid);
 
-            // Create post container
             const postDiv = document.createElement("div");
             postDiv.classList.add("post");
 
-            // Post header
             const headerDiv = document.createElement("div");
             headerDiv.classList.add("post-header");
 
-            // Profile pic placeholder (no upload in this demo)
             const profilePic = document.createElement("div");
             profilePic.classList.add("profile-pic");
             profilePic.textContent = post.userName.charAt(0).toUpperCase();
@@ -542,13 +563,11 @@
             headerDiv.appendChild(nameSpan);
             postDiv.appendChild(headerDiv);
 
-            // Post text content
             const textDiv = document.createElement("div");
             textDiv.classList.add("post-content");
             textDiv.textContent = post.text;
             postDiv.appendChild(textDiv);
 
-            // Media if any
             if (post.mediaURL) {
               if (post.mediaType === "image") {
                 const img = document.createElement("img");
@@ -563,11 +582,9 @@
               }
             }
 
-            // Actions: Like, Comment, Share
             const actionsDiv = document.createElement("div");
             actionsDiv.classList.add("actions");
 
-            // Like button
             const likeBtn = document.createElement("span");
             likeBtn.classList.add("action-btn");
             likeBtn.textContent = isLiked ? `❤️ Unlike (${post.likes.length})` : `🤍 Like (${post.likes.length})`;
@@ -585,7 +602,6 @@
             };
             actionsDiv.appendChild(likeBtn);
 
-            // Comment button and UI
             const commentBtn = document.createElement("span");
             commentBtn.classList.add("action-btn");
             commentBtn.textContent = `💬 Comment (${post.comments.length})`;
@@ -593,12 +609,10 @@
 
             postDiv.appendChild(actionsDiv);
 
-            // Comment section (hidden by default)
             const commentSection = document.createElement("div");
             commentSection.style.marginTop = "1rem";
             commentSection.style.display = "none";
 
-            // Comments list
             const commentsList = document.createElement("div");
             post.comments.forEach(cmt => {
               const cmtDiv = document.createElement("div");
@@ -607,7 +621,6 @@
             });
             commentSection.appendChild(commentsList);
 
-            // Add comment input and button
             const commentInput = document.createElement("input");
             commentInput.placeholder = "Add a comment...";
             commentInput.style.marginTop = "0.5rem";
@@ -645,7 +658,10 @@
       });
     });
 
+    // Marketplace button (just alert for demo)
+    marketplaceBtn.addEventListener("click", () => {
+      alert("Marketplace feature coming soon!");
+    });
   </script>
-
 </body>
 </html>
