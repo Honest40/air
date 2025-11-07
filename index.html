@@ -3,403 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🔥 Pa Mwera Social</title>
+  <title>Pa Mwera - Social Network</title>
   <style>
-    /* Reset & base */
-    body, html {
-      margin: 0; padding: 0; font-family: Arial, sans-serif; background: #f0f2f5; color: #333;
-    }
-    a { color: #1877f2; cursor: pointer; text-decoration: none;}
-    a:hover { text-decoration: underline; }
-    button { cursor: pointer; }
-    input, textarea {
-      padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; width: 100%;
-      box-sizing: border-box; margin: 5px 0;
-    }
-    img { max-width: 100%; height: auto; border-radius: 5px; }
-    video { max-width: 100%; border-radius: 5px; }
-
-    /* Layout */
-    #app {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 10px;
+    /* Simple modern colorful style */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0; padding: 0;
+      background: linear-gradient(135deg, #ff5252, #ff4081);
+      color: #333;
     }
     header {
       background: #c70000;
-      color: white;
-      padding: 12px;
-      font-size: 24px;
+      color: #fff;
+      padding: 1rem;
+      font-size: 1.8rem;
       font-weight: bold;
       text-align: center;
-      margin-bottom: 15px;
-      user-select: none;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-
-    /* Auth forms */
-    #auth-section {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px #ccc;
-      max-width: 400px;
-      margin: 30px auto;
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
-    #auth-section h2 {
-      color: #c70000;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-    #auth-message {
-      margin: 10px 0;
-      font-weight: 600;
-    }
-
-    /* Profile setup */
-    #profile-setup {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px #ccc;
-      max-width: 400px;
-      margin: 20px auto;
-    }
-
-    /* Main app UI */
-    #main-app {
-      display: none;
-    }
-    #top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    #search-input {
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 200px;
-    }
-    #logout-btn {
-      background: #c70000;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-    #logout-btn:hover {
-      background: #a50000;
-    }
-
-    /* User info */
-    #user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      background: white;
-      padding: 10px 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 6px #ccc;
-    }
-    #user-info img {
-      width: 50px; height: 50px; border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #c70000;
-    }
-    #user-info span {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    /* Post creation */
-    #post-creator {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px #ccc;
-      margin-bottom: 25px;
-    }
-    #post-text {
+    .hidden { display: none; }
+    input, textarea {
       width: 100%;
-      min-height: 70px;
-      resize: vertical;
+      padding: 0.7rem;
+      margin: 0.5rem 0 1rem 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
     }
-    #media-preview {
-      margin-top: 10px;
-      max-height: 200px;
-      overflow: hidden;
-    }
-    #media-preview img, #media-preview video {
-      max-height: 200px;
-      border-radius: 10px;
-    }
-    #post-actions {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    #post-actions input[type=file] {
-      display: none;
-    }
-    #add-image-btn, #add-video-btn {
+    button {
       background: #c70000;
       color: white;
-      padding: 8px 12px;
       border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: background 0.3s;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-    #add-image-btn:hover, #add-video-btn:hover {
+    button:hover {
       background: #a50000;
     }
-    #submit-post-btn {
-      background: #1877f2;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      font-weight: bold;
-      margin-left: auto;
-      transition: background 0.3s;
-    }
-    #submit-post-btn:hover {
-      background: #155db2;
-    }
-
-    /* Posts feed */
-    #posts-feed {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-bottom: 50px;
+    #posts {
+      margin-top: 2rem;
     }
     .post {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 0 8px #ccc;
-      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #fafafa;
     }
     .post-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 1rem;
     }
-    .post-header img {
-      width: 45px; height: 45px;
+    .profile-pic {
+      width: 50px; height: 50px;
       border-radius: 50%;
+      background: #ddd;
       object-fit: cover;
-      border: 2px solid #c70000;
     }
-    .post-header .username {
-      font-weight: bold;
-      font-size: 16px;
-    }
-    .post-content {
-      margin-bottom: 10px;
-      white-space: pre-wrap;
-    }
-    .post-media img, .post-media video {
-      width: 100%;
-      max-height: 350px;
+    .post-content img, .post-content video {
+      max-width: 100%;
       border-radius: 10px;
-      margin-top: 10px;
-      object-fit: contain;
+      margin-top: 1rem;
     }
-    .post-actions {
+    .actions {
+      margin-top: 1rem;
       display: flex;
-      gap: 15px;
-      margin-top: 10px;
-      font-weight: bold;
-      user-select: none;
+      gap: 1rem;
     }
-    .post-actions span {
+    .action-btn {
       cursor: pointer;
-      color: #555;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .post-actions span:hover {
       color: #c70000;
-    }
-    .liked {
-      color: #c70000 !important;
-    }
-
-    /* Comments */
-    .comments {
-      margin-top: 10px;
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
-    }
-    .comment {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .comment img {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid #c70000;
-    }
-    .comment-content {
-      background: #f0f2f5;
-      padding: 7px 12px;
-      border-radius: 15px;
-      max-width: 80%;
-      font-size: 14px;
-      word-wrap: break-word;
-    }
-    .comment-username {
-      font-weight: 600;
-      margin-bottom: 2px;
-      font-size: 13px;
-    }
-
-    /* Comment form */
-    .comment-form {
-      display: flex;
-      margin-top: 10px;
-      gap: 10px;
-    }
-    .comment-input {
-      flex-grow: 1;
-      padding: 8px;
-      border-radius: 20px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-    .comment-submit-btn {
-      background: #c70000;
-      border: none;
-      padding: 8px 15px;
-      color: white;
-      border-radius: 20px;
       font-weight: bold;
-      transition: background 0.3s;
     }
-    .comment-submit-btn:hover {
-      background: #a50000;
-    }
-
-    /* Search users list */
-    #user-search-results {
-      background: white;
-      max-height: 200px;
-      overflow-y: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 8px #ccc;
-      margin-top: 5px;
-      padding: 10px;
-    }
-    .search-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .search-user:hover {
-      background: #f0f2f5;
-    }
-    .search-user img {
-      width: 35px; height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid #c70000;
+    #searchInput {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <header>🔥 Pa Mwera</header>
 
+  <header>🔥 Pa Mwera</header>
+
+  <main>
     <!-- Auth Section -->
-    <div id="auth-section">
-      <h2>Login or Signup</h2>
-
-      <div id="login-form">
-        <input type="email" id="login-email" placeholder="Email" />
-        <input type="password" id="login-password" placeholder="Password" />
-        <button id="login-btn">Login</button>
-        <p>Don't have an account? <a id="show-signup">Sign up here</a></p>
-        <p id="auth-message"></p>
+    <div id="authSection">
+      <div id="signupDiv">
+        <h2>Sign Up</h2>
+        <input id="signupName" type="text" placeholder="Full Name" />
+        <input id="signupEmail" type="email" placeholder="Email" />
+        <input id="signupPassword" type="password" placeholder="Password (6+ chars)" />
+        <button id="signupBtn">Sign Up</button>
+        <p>Already have an account? <a href="#" id="showLoginLink">Log In</a></p>
+        <p id="signupMessage" style="color:red;"></p>
       </div>
-
-      <div id="signup-form" style="display:none;">
-        <input type="text" id="signup-name" placeholder="Full Name" />
-        <input type="email" id="signup-email" placeholder="Email" />
-        <input type="password" id="signup-password" placeholder="Password (min 6 chars)" />
-        <button id="signup-btn">Sign Up</button>
-        <p>Already have an account? <a id="show-login">Login here</a></p>
-        <p id="auth-message-signup"></p>
+      <div id="loginDiv" class="hidden">
+        <h2>Log In</h2>
+        <input id="loginEmail" type="email" placeholder="Email" />
+        <input id="loginPassword" type="password" placeholder="Password" />
+        <button id="loginBtn">Log In</button>
+        <p>Don't have an account? <a href="#" id="showSignupLink">Sign Up</a></p>
+        <p id="loginMessage" style="color:red;"></p>
       </div>
     </div>
 
-    <!-- Profile Setup (set profile pic and name) -->
-    <div id="profile-setup" style="display:none;">
-      <h2>Set up your profile</h2>
-      <input type="text" id="profile-name" placeholder="Enter your display name" />
-      <label for="profile-pic">Upload Profile Picture:</label>
-      <input type="file" id="profile-pic" accept="image/*" />
-      <button id="save-profile-btn">Save Profile</button>
-      <p id="profile-msg"></p>
+    <!-- Main App Section -->
+    <div id="appSection" class="hidden">
+      <p>Welcome, <span id="userName"></span>! <button id="logoutBtn">Logout</button></p>
+
+      <input id="searchInput" placeholder="Search users..." />
+
+      <h3>Create a Post</h3>
+      <textarea id="postText" placeholder="What's on your mind?" rows="3"></textarea>
+      <input type="file" id="postMedia" accept="image/*,video/*" />
+      <button id="postBtn">Post</button>
+      <p id="postMessage" style="color:red;"></p>
+
+      <h3>Posts</h3>
+      <div id="posts"></div>
     </div>
+  </main>
 
-    <!-- Main App -->
-    <div id="main-app" style="display:none;">
-      <div id="top-bar">
-        <input type="text" id="search-input" placeholder="Search users by name..." />
-        <button id="logout-btn">Logout</button>
-      </div>
-
-      <div id="user-search-results"></div>
-
-      <div id="user-info">
-        <img id="user-profile-pic" src="" alt="Profile Picture" />
-        <span id="user-name-display"></span>
-      </div>
-
-      <div id="post-creator">
-        <textarea id="post-text" placeholder="What's on your mind?"></textarea>
-        <div id="media-preview"></div>
-        <div id="post-actions">
-          <label for="post-image" id="add-image-btn">Add Image</label>
-          <input type="file" id="post-image" accept="image/*" />
-          <label for="post-video" id="add-video-btn">Add Video</label>
-          <input type="file" id="post-video" accept="video/*" />
-          <button id="submit-post-btn">Post</button>
-        </div>
-      </div>
-
-      <div id="posts-feed"></div>
-    </div>
-  </div>
-
-  <!-- Firebase SDKs -->
+  <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
     import {
       getAuth,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
       signOut,
-      sendEmailVerification,
       onAuthStateChanged,
       updateProfile
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-
+    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
     import {
       getFirestore,
       collection,
@@ -410,20 +162,19 @@
       getDocs,
       query,
       orderBy,
+      serverTimestamp,
       onSnapshot,
       updateDoc,
       arrayUnion,
-      where,
-      serverTimestamp,
-      increment
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
-
+      arrayRemove,
+      where
+    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
     import {
       getStorage,
       ref,
       uploadBytes,
       getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js";
+    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
     // Your Firebase config
     const firebaseConfig = {
@@ -441,75 +192,59 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
-    // DOM Elements
-    const authSection = document.getElementById("auth-section");
-    const loginForm = document.getElementById("login-form");
-    const signupForm = document.getElementById("signup-form");
-    const authMessage = document.getElementById("auth-message");
-    const authMessageSignup = document.getElementById("auth-message-signup");
-    const showSignupLink = document.getElementById("show-signup");
-    const showLoginLink = document.getElementById("show-login");
+    // DOM elements
+    const authSection = document.getElementById("authSection");
+    const signupDiv = document.getElementById("signupDiv");
+    const loginDiv = document.getElementById("loginDiv");
+    const showLoginLink = document.getElementById("showLoginLink");
+    const showSignupLink = document.getElementById("showSignupLink");
+    const signupBtn = document.getElementById("signupBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const signupMessage = document.getElementById("signupMessage");
+    const loginMessage = document.getElementById("loginMessage");
+    const userNameSpan = document.getElementById("userName");
+    const appSection = document.getElementById("appSection");
+    const postBtn = document.getElementById("postBtn");
+    const postText = document.getElementById("postText");
+    const postMedia = document.getElementById("postMedia");
+    const postMessage = document.getElementById("postMessage");
+    const postsDiv = document.getElementById("posts");
+    const searchInput = document.getElementById("searchInput");
 
-    const profileSetup = document.getElementById("profile-setup");
-    const profileNameInput = document.getElementById("profile-name");
-    const profilePicInput = document.getElementById("profile-pic");
-    const saveProfileBtn = document.getElementById("save-profile-btn");
-    const profileMsg = document.getElementById("profile-msg");
+    // Show login/signup toggle
+    showLoginLink.addEventListener("click", e => {
+      e.preventDefault();
+      signupDiv.classList.add("hidden");
+      loginDiv.classList.remove("hidden");
+      signupMessage.textContent = "";
+      loginMessage.textContent = "";
+    });
+    showSignupLink.addEventListener("click", e => {
+      e.preventDefault();
+      loginDiv.classList.add("hidden");
+      signupDiv.classList.remove("hidden");
+      signupMessage.textContent = "";
+      loginMessage.textContent = "";
+    });
 
-    const mainApp = document.getElementById("main-app");
-    const logoutBtn = document.getElementById("logout-btn");
+    // Signup handler (no email verification)
+    signupBtn.addEventListener("click", async () => {
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value.trim();
 
-    const userNameDisplay = document.getElementById("user-name-display");
-    const userProfilePic = document.getElementById("user-profile-pic");
-
-    const postText = document.getElementById("post-text");
-    const postImageInput = document.getElementById("post-image");
-    const postVideoInput = document.getElementById("post-video");
-    const mediaPreview = document.getElementById("media-preview");
-    const submitPostBtn = document.getElementById("submit-post-btn");
-
-    const postsFeed = document.getElementById("posts-feed");
-
-    const searchInput = document.getElementById("search-input");
-    const userSearchResults = document.getElementById("user-search-results");
-
-    let currentUser = null;
-    let currentUserData = null;
-    let currentPostMediaFile = null;
-
-    // Show signup form
-    showSignupLink.onclick = () => {
-      loginForm.style.display = "none";
-      signupForm.style.display = "block";
-      authMessage.textContent = "";
-      authMessageSignup.textContent = "";
-    };
-
-    // Show login form
-    showLoginLink.onclick = () => {
-      signupForm.style.display = "none";
-      loginForm.style.display = "block";
-      authMessage.textContent = "";
-      authMessageSignup.textContent = "";
-    };
-
-    // Sign up user
-    document.getElementById("signup-btn").onclick = async () => {
-      const name = document.getElementById("signup-name").value.trim();
-      const email = document.getElementById("signup-email").value.trim();
-      const password = document.getElementById("signup-password").value.trim();
-
-      authMessageSignup.style.color = "red";
+      signupMessage.style.color = "red";
       if (!name) {
-        authMessageSignup.textContent = "Please enter your full name.";
+        signupMessage.textContent = "Please enter your full name.";
         return;
       }
       if (!email) {
-        authMessageSignup.textContent = "Please enter your email.";
+        signupMessage.textContent = "Please enter your email.";
         return;
       }
       if (password.length < 6) {
-        authMessageSignup.textContent = "Password must be at least 6 characters.";
+        signupMessage.textContent = "Password must be at least 6 characters.";
         return;
       }
 
@@ -517,493 +252,400 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Send verification email
-        await sendEmailVerification(user);
+        // Update display name in Firebase Auth profile
+        await updateProfile(user, { displayName: name });
 
-        // Save display name and placeholder profile pic
+        // Save user details in Firestore
         await setDoc(doc(db, "users", user.uid), {
           name: name,
           email: email,
-          profilePic: "",  // Will be updated later
+          profilePic: "",
           createdAt: serverTimestamp()
         });
 
-        authMessageSignup.style.color = "green";
-        authMessageSignup.textContent = "Account created! Please verify your email before logging in.";
+        signupMessage.style.color = "green";
+        signupMessage.textContent = "Account created! You can now log in.";
       } catch (error) {
-        authMessageSignup.textContent = error.message;
-      }
-    };
-
-    // Login user
-    document.getElementById("login-btn").onclick = async () => {
-      const email = document.getElementById("login-email").value.trim();
-      const password = document.getElementById("login-password").value.trim();
-      authMessage.style.color = "red";
-
-      if (!email || !password) {
-        authMessage.textContent = "Please fill in all fields.";
-        return;
-      }
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        if (!user.emailVerified) {
-          authMessage.textContent = "Please verify your email before logging in.";
-          await signOut(auth);
-          return;
-        }
-        // If profile incomplete, show profile setup else show app
-      } catch (error) {
-        authMessage.textContent = error.message;
-      }
-    };
-
-    // Logout user
-    logoutBtn.onclick = () => {
-      signOut(auth);
-    };
-
-    // Auth state listener
-    onAuthStateChanged(auth, async user => {
-      if (user) {
-        currentUser = user;
-        // Load user profile data
-        const docSnap = await getDoc(doc(db, "users", user.uid));
-        if (docSnap.exists()) {
-          currentUserData = docSnap.data();
-
-          if (!currentUserData.name || currentUserData.name.trim() === "" || !currentUserData.profilePic) {
-            // Show profile setup if name or profile pic missing
-            profileSetup.style.display = "block";
-            authSection.style.display = "none";
-            mainApp.style.display = "none";
-          } else {
-            // Show main app UI
-            profileSetup.style.display = "none";
-            authSection.style.display = "none";
-            mainApp.style.display = "block";
-
-            // Update UI with user info
-            userNameDisplay.textContent = currentUserData.name;
-            userProfilePic.src = currentUserData.profilePic || "https://via.placeholder.com/50?text=User";
-
-            // Load posts
-            loadPosts();
-
-            // Clear search results on login
-            userSearchResults.innerHTML = "";
-          }
-        } else {
-          // If no user doc, show profile setup
-          profileSetup.style.display = "block";
-          authSection.style.display = "none";
-          mainApp.style.display = "none";
-        }
-      } else {
-        // User logged out
-        currentUser = null;
-        currentUserData = null;
-        authSection.style.display = "block";
-        profileSetup.style.display = "none";
-        mainApp.style.display = "none";
-        clearInputs();
-        postsFeed.innerHTML = "";
-        userSearchResults.innerHTML = "";
+        signupMessage.textContent = error.message;
       }
     });
 
-    // Save profile setup
-    saveProfileBtn.onclick = async () => {
-      const displayName = profileNameInput.value.trim();
-      const file = profilePicInput.files[0];
+    // Login handler (no email verification check)
+    loginBtn.addEventListener("click", async () => {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+      loginMessage.style.color = "red";
 
-      profileMsg.style.color = "red";
-      if (!displayName) {
-        profileMsg.textContent = "Please enter a display name.";
-        return;
-      }
-      if (!file) {
-        profileMsg.textContent = "Please upload a profile picture.";
+      if (!email || !password) {
+        loginMessage.textContent = "Please fill in all fields.";
         return;
       }
 
       try {
-        profileMsg.textContent = "Uploading profile picture...";
-        // Upload profile pic to storage
-        const storageRef = ref(storage, `profile_pics/${currentUser.uid}_${Date.now()}`);
-        await uploadBytes(storageRef, file);
-        const photoURL = await getDownloadURL(storageRef);
-
-        // Update user profile in auth and Firestore
-        await updateProfile(currentUser, { displayName, photoURL });
-        await updateDoc(doc(db, "users", currentUser.uid), {
-          name: displayName,
-          profilePic: photoURL
-        });
-
-        profileMsg.style.color = "green";
-        profileMsg.textContent = "Profile updated! Loading app...";
-
-        // Show main app
-        profileSetup.style.display = "none";
-        mainApp.style.display = "block";
-
-        // Update UI
-        userNameDisplay.textContent = displayName;
-        userProfilePic.src = photoURL;
-
-        loadPosts();
-      } catch (err) {
-        profileMsg.textContent = err.message;
+        await signInWithEmailAndPassword(auth, email, password);
+        // Success message removed here, UI will update onAuthStateChanged
+      } catch (error) {
+        loginMessage.textContent = error.message;
       }
-    };
+    });
 
-    // Post media inputs change handlers
-    postImageInput.onchange = (e) => {
-      currentPostMediaFile = e.target.files[0];
-      if (currentPostMediaFile) {
-        mediaPreview.innerHTML = "";
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(currentPostMediaFile);
-        mediaPreview.appendChild(img);
-        // Clear video input
-        postVideoInput.value = "";
-      }
-    };
+    // Logout handler
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+    });
 
-    postVideoInput.onchange = (e) => {
-      currentPostMediaFile = e.target.files[0];
-      if (currentPostMediaFile) {
-        mediaPreview.innerHTML = "";
-        const video = document.createElement("video");
-        video.src = URL.createObjectURL(currentPostMediaFile);
-        video.controls = true;
-        mediaPreview.appendChild(video);
-        // Clear image input
-        postImageInput.value = "";
-      }
-    };
+    // Listen for auth state changes
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        authSection.classList.add("hidden");
+        appSection.classList.remove("hidden");
 
-    // Submit post
-    submitPostBtn.onclick = async () => {
-      const text = postText.value.trim();
-      if (!text && !currentPostMediaFile) {
-        alert("Post must have text or media!");
-        return;
-      }
-
-      submitPostBtn.disabled = true;
-      submitPostBtn.textContent = "Posting...";
-
-      try {
-        let mediaURL = "";
-        let mediaType = "";
-
-        if (currentPostMediaFile) {
-          const ext = currentPostMediaFile.name.split('.').pop().toLowerCase();
-          mediaType = currentPostMediaFile.type.startsWith("image") ? "image" : "video";
-
-          const storageRef = ref(storage, `posts_media/${currentUser.uid}_${Date.now()}_${currentPostMediaFile.name}`);
-          await uploadBytes(storageRef, currentPostMediaFile);
-          mediaURL = await getDownloadURL(storageRef);
+        // Get user details from Firestore
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          userNameSpan.textContent = userDoc.data().name || user.email;
+        } else {
+          userNameSpan.textContent = user.email;
         }
 
+        loadPosts();
+      } else {
+        authSection.classList.remove("hidden");
+        appSection.classList.add("hidden");
+        signupMessage.textContent = "";
+        loginMessage.textContent = "";
+        postMessage.textContent = "";
+        postsDiv.innerHTML = "";
+        userNameSpan.textContent = "";
+      }
+    });
+
+    // Post creation
+    postBtn.addEventListener("click", async () => {
+      postMessage.style.color = "red";
+      const text = postText.value.trim();
+      const mediaFile = postMedia.files[0];
+      if (!text && !mediaFile) {
+        postMessage.textContent = "Please add text or media to post.";
+        return;
+      }
+
+      postBtn.disabled = true;
+      postMessage.textContent = "Posting...";
+
+      let mediaURL = "";
+      let mediaType = "";
+
+      try {
+        if (mediaFile) {
+          const mediaRef = ref(storage, `posts/${auth.currentUser.uid}/${Date.now()}_${mediaFile.name}`);
+          await uploadBytes(mediaRef, mediaFile);
+          mediaURL = await getDownloadURL(mediaRef);
+          mediaType = mediaFile.type.startsWith("video") ? "video" : "image";
+        }
+
+        // Create post doc
         await addDoc(collection(db, "posts"), {
-          uid: currentUser.uid,
-          name: currentUserData.name,
-          profilePic: currentUserData.profilePic || "",
+          userId: auth.currentUser.uid,
+          userName: userNameSpan.textContent,
           text: text,
           mediaURL: mediaURL,
           mediaType: mediaType,
           likes: [],
-          createdAt: serverTimestamp(),
-          comments: []
+          comments: [],
+          createdAt: serverTimestamp()
         });
 
-        // Reset post creator
+        postMessage.style.color = "green";
+        postMessage.textContent = "Post created!";
         postText.value = "";
-        postImageInput.value = "";
-        postVideoInput.value = "";
-        mediaPreview.innerHTML = "";
-        currentPostMediaFile = null;
-
-        submitPostBtn.disabled = false;
-        submitPostBtn.textContent = "Post";
-      } catch (err) {
-        alert("Error posting: " + err.message);
-        submitPostBtn.disabled = false;
-        submitPostBtn.textContent = "Post";
+        postMedia.value = "";
+      } catch (error) {
+        postMessage.textContent = "Error posting: " + error.message;
       }
-    };
 
-    // Load posts & listen for realtime updates
+      postBtn.disabled = false;
+    });
+
+    // Load and display posts
     function loadPosts() {
-      const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-      onSnapshot(q, snapshot => {
-        postsFeed.innerHTML = "";
-
+      const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      onSnapshot(postsQuery, (snapshot) => {
+        postsDiv.innerHTML = "";
         snapshot.forEach(docSnap => {
           const post = docSnap.data();
-          post.id = docSnap.id;
+          const postId = docSnap.id;
+          const isLiked = post.likes.includes(auth.currentUser.uid);
 
-          postsFeed.appendChild(createPostElement(post));
+          // Create post container
+          const postDiv = document.createElement("div");
+          postDiv.classList.add("post");
+
+          // Post header
+          const headerDiv = document.createElement("div");
+          headerDiv.classList.add("post-header");
+
+          // Profile pic placeholder (no upload in this demo)
+          const profilePic = document.createElement("div");
+          profilePic.classList.add("profile-pic");
+          profilePic.textContent = post.userName.charAt(0).toUpperCase();
+
+          const nameSpan = document.createElement("span");
+          nameSpan.textContent = post.userName;
+
+          headerDiv.appendChild(profilePic);
+          headerDiv.appendChild(nameSpan);
+          postDiv.appendChild(headerDiv);
+
+          // Post text content
+          const textDiv = document.createElement("div");
+          textDiv.classList.add("post-content");
+          textDiv.textContent = post.text;
+          postDiv.appendChild(textDiv);
+
+          // Media if any
+          if (post.mediaURL) {
+            if (post.mediaType === "image") {
+              const img = document.createElement("img");
+              img.src = post.mediaURL;
+              img.alt = "Post image";
+              postDiv.appendChild(img);
+            } else if (post.mediaType === "video") {
+              const video = document.createElement("video");
+              video.src = post.mediaURL;
+              video.controls = true;
+              postDiv.appendChild(video);
+            }
+          }
+
+          // Actions: Like, Comment, Share
+          const actionsDiv = document.createElement("div");
+          actionsDiv.classList.add("actions");
+
+          // Like button
+          const likeBtn = document.createElement("span");
+          likeBtn.classList.add("action-btn");
+          likeBtn.textContent = isLiked ? `❤️ Unlike (${post.likes.length})` : `🤍 Like (${post.likes.length})`;
+          likeBtn.onclick = async () => {
+            const postRef = doc(db, "posts", postId);
+            if (isLiked) {
+              await updateDoc(postRef, {
+                likes: arrayRemove(auth.currentUser.uid)
+              });
+            } else {
+              await updateDoc(postRef, {
+                likes: arrayUnion(auth.currentUser.uid)
+              });
+            }
+          };
+          actionsDiv.appendChild(likeBtn);
+
+          // Comment button and UI
+          const commentBtn = document.createElement("span");
+          commentBtn.classList.add("action-btn");
+          commentBtn.textContent = `💬 Comment (${post.comments.length})`;
+          actionsDiv.appendChild(commentBtn);
+
+          postDiv.appendChild(actionsDiv);
+
+          // Comment section (hidden by default)
+          const commentSection = document.createElement("div");
+          commentSection.style.marginTop = "1rem";
+          commentSection.style.display = "none";
+
+          // Comments list
+          const commentsList = document.createElement("div");
+          post.comments.forEach(cmt => {
+            const cmtDiv = document.createElement("div");
+            cmtDiv.textContent = `${cmt.name}: ${cmt.text}`;
+            commentsList.appendChild(cmtDiv);
+          });
+          commentSection.appendChild(commentsList);
+
+          // Add comment input and button
+          const commentInput = document.createElement("input");
+          commentInput.placeholder = "Add a comment...";
+          commentInput.style.marginTop = "0.5rem";
+
+          const commentAddBtn = document.createElement("button");
+          commentAddBtn.textContent = "Post Comment";
+
+          commentAddBtn.onclick = async () => {
+            const cText = commentInput.value.trim();
+            if (!cText) return;
+            const postRef = doc(db, "posts", postId);
+            await updateDoc(postRef, {
+              comments: arrayUnion({
+                uid: auth.currentUser.uid,
+                name: userNameSpan.textContent,
+                text: cText,
+                createdAt: serverTimestamp()
+              })
+            });
+            commentInput.value = "";
+          };
+
+          commentSection.appendChild(commentInput);
+          commentSection.appendChild(commentAddBtn);
+
+          postDiv.appendChild(commentSection);
+
+          commentBtn.onclick = () => {
+            commentSection.style.display = commentSection.style.display === "none" ? "block" : "none";
+          };
+
+          postsDiv.appendChild(postDiv);
         });
       });
     }
 
-    // Create post DOM element
-    function createPostElement(post) {
-      const postDiv = document.createElement("div");
-      postDiv.className = "post";
-
-      // Post header
-      const header = document.createElement("div");
-      header.className = "post-header";
-
-      const profileImg = document.createElement("img");
-      profileImg.src = post.profilePic || "https://via.placeholder.com/45?text=User";
-      profileImg.alt = post.name;
-
-      const usernameSpan = document.createElement("span");
-      usernameSpan.className = "username";
-      usernameSpan.textContent = post.name;
-
-      header.appendChild(profileImg);
-      header.appendChild(usernameSpan);
-      postDiv.appendChild(header);
-
-      // Post content text
-      const content = document.createElement("div");
-      content.className = "post-content";
-      content.textContent = post.text || "";
-      postDiv.appendChild(content);
-
-      // Post media (image/video)
-      if (post.mediaURL) {
-        const mediaDiv = document.createElement("div");
-        mediaDiv.className = "post-media";
-        if (post.mediaType === "image") {
-          const img = document.createElement("img");
-          img.src = post.mediaURL;
-          mediaDiv.appendChild(img);
-        } else if (post.mediaType === "video") {
-          const video = document.createElement("video");
-          video.src = post.mediaURL;
-          video.controls = true;
-          mediaDiv.appendChild(video);
-        }
-        postDiv.appendChild(mediaDiv);
+    // User search (by name)
+    searchInput.addEventListener("input", async () => {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      if (!searchTerm) {
+        loadPosts();
+        return;
       }
+      // Search users by name
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("name", ">=", searchTerm), where("name", "<=", searchTerm + "\uf8ff"));
+      const querySnapshot = await getDocs(q);
+      const userIds = querySnapshot.docs.map(doc => doc.id);
 
-      // Actions: Like, Comment, Share
-      const actionsDiv = document.createElement("div");
-      actionsDiv.className = "post-actions";
+      // Filter posts to only those from matching users
+      const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      onSnapshot(postsQuery, (snapshot) => {
+        postsDiv.innerHTML = "";
+        snapshot.forEach(docSnap => {
+          const post = docSnap.data();
+          if (userIds.includes(post.userId)) {
+            const postId = docSnap.id;
+            const isLiked = post.likes.includes(auth.currentUser.uid);
 
-      // Like
-      const likeSpan = document.createElement("span");
-      likeSpan.innerHTML = `👍 <span>${post.likes.length || 0}</span>`;
-      if (post.likes.includes(currentUser.uid)) {
-        likeSpan.classList.add("liked");
-      }
-      likeSpan.onclick = () => toggleLike(post);
-      actionsDiv.appendChild(likeSpan);
+            // Create post container
+            const postDiv = document.createElement("div");
+            postDiv.classList.add("post");
 
-      // Comment
-      const commentSpan = document.createElement("span");
-      commentSpan.textContent = "💬 Comment";
-      commentSpan.onclick = () => toggleComments(postDiv, post);
-      actionsDiv.appendChild(commentSpan);
+            // Post header
+            const headerDiv = document.createElement("div");
+            headerDiv.classList.add("post-header");
 
-      // Share (just alert for demo)
-      const shareSpan = document.createElement("span");
-      shareSpan.textContent = "🔄 Share";
-      shareSpan.onclick = () => alert("Sharing feature coming soon!");
-      actionsDiv.appendChild(shareSpan);
+            // Profile pic placeholder (no upload in this demo)
+            const profilePic = document.createElement("div");
+            profilePic.classList.add("profile-pic");
+            profilePic.textContent = post.userName.charAt(0).toUpperCase();
 
-      postDiv.appendChild(actionsDiv);
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = post.userName;
 
-      // Comments container (hidden initially)
-      const commentsDiv = document.createElement("div");
-      commentsDiv.className = "comments";
-      commentsDiv.style.display = "none";
-      postDiv.appendChild(commentsDiv);
+            headerDiv.appendChild(profilePic);
+            headerDiv.appendChild(nameSpan);
+            postDiv.appendChild(headerDiv);
 
-      return postDiv;
-    }
+            // Post text content
+            const textDiv = document.createElement("div");
+            textDiv.classList.add("post-content");
+            textDiv.textContent = post.text;
+            postDiv.appendChild(textDiv);
 
-    // Like / unlike post
-    async function toggleLike(post) {
-      const postRef = doc(db, "posts", post.id);
-      const liked = post.likes.includes(currentUser.uid);
+            // Media if any
+            if (post.mediaURL) {
+              if (post.mediaType === "image") {
+                const img = document.createElement("img");
+                img.src = post.mediaURL;
+                img.alt = "Post image";
+                postDiv.appendChild(img);
+              } else if (post.mediaType === "video") {
+                const video = document.createElement("video");
+                video.src = post.mediaURL;
+                video.controls = true;
+                postDiv.appendChild(video);
+              }
+            }
 
-      try {
-        if (liked) {
-          // Unlike
-          const newLikes = post.likes.filter(uid => uid !== currentUser.uid);
-          await updateDoc(postRef, { likes: newLikes });
-        } else {
-          // Like
-          await updateDoc(postRef, { likes: arrayUnion(currentUser.uid) });
-        }
-      } catch (err) {
-        alert("Error updating like: " + err.message);
-      }
-    }
+            // Actions: Like, Comment, Share
+            const actionsDiv = document.createElement("div");
+            actionsDiv.classList.add("actions");
 
-    // Toggle comments visibility + load comments
-    function toggleComments(postDiv, post) {
-      const commentsDiv = postDiv.querySelector(".comments");
+            // Like button
+            const likeBtn = document.createElement("span");
+            likeBtn.classList.add("action-btn");
+            likeBtn.textContent = isLiked ? `❤️ Unlike (${post.likes.length})` : `🤍 Like (${post.likes.length})`;
+            likeBtn.onclick = async () => {
+              const postRef = doc(db, "posts", postId);
+              if (isLiked) {
+                await updateDoc(postRef, {
+                  likes: arrayRemove(auth.currentUser.uid)
+                });
+              } else {
+                await updateDoc(postRef, {
+                  likes: arrayUnion(auth.currentUser.uid)
+                });
+              }
+            };
+            actionsDiv.appendChild(likeBtn);
 
-      if (commentsDiv.style.display === "none") {
-        commentsDiv.style.display = "block";
-        renderComments(commentsDiv, post);
-      } else {
-        commentsDiv.style.display = "none";
-        commentsDiv.innerHTML = "";
-      }
-    }
+            // Comment button and UI
+            const commentBtn = document.createElement("span");
+            commentBtn.classList.add("action-btn");
+            commentBtn.textContent = `💬 Comment (${post.comments.length})`;
+            actionsDiv.appendChild(commentBtn);
 
-    // Render comments UI
-    function renderComments(container, post) {
-      container.innerHTML = "";
+            postDiv.appendChild(actionsDiv);
 
-      // Comments list
-      if (post.comments && post.comments.length > 0) {
-        post.comments.forEach(c => {
-          const cDiv = document.createElement("div");
-          cDiv.className = "comment";
+            // Comment section (hidden by default)
+            const commentSection = document.createElement("div");
+            commentSection.style.marginTop = "1rem";
+            commentSection.style.display = "none";
 
-          const cImg = document.createElement("img");
-          cImg.src = c.profilePic || "https://via.placeholder.com/30?text=U";
-          cImg.alt = c.name;
+            // Comments list
+            const commentsList = document.createElement("div");
+            post.comments.forEach(cmt => {
+              const cmtDiv = document.createElement("div");
+              cmtDiv.textContent = `${cmt.name}: ${cmt.text}`;
+              commentsList.appendChild(cmtDiv);
+            });
+            commentSection.appendChild(commentsList);
 
-          const cContent = document.createElement("div");
-          cContent.className = "comment-content";
+            // Add comment input and button
+            const commentInput = document.createElement("input");
+            commentInput.placeholder = "Add a comment...";
+            commentInput.style.marginTop = "0.5rem";
 
-          const cName = document.createElement("div");
-          cName.className = "comment-username";
-          cName.textContent = c.name;
+            const commentAddBtn = document.createElement("button");
+            commentAddBtn.textContent = "Post Comment";
 
-          const cText = document.createElement("div");
-          cText.textContent = c.text;
+            commentAddBtn.onclick = async () => {
+              const cText = commentInput.value.trim();
+              if (!cText) return;
+              const postRef = doc(db, "posts", postId);
+              await updateDoc(postRef, {
+                comments: arrayUnion({
+                  uid: auth.currentUser.uid,
+                  name: userNameSpan.textContent,
+                  text: cText,
+                  createdAt: serverTimestamp()
+                })
+              });
+              commentInput.value = "";
+            };
 
-          cContent.appendChild(cName);
-          cContent.appendChild(cText);
+            commentSection.appendChild(commentInput);
+            commentSection.appendChild(commentAddBtn);
 
-          cDiv.appendChild(cImg);
-          cDiv.appendChild(cContent);
+            postDiv.appendChild(commentSection);
 
-          container.appendChild(cDiv);
-        });
-      }
+            commentBtn.onclick = () => {
+              commentSection.style.display = commentSection.style.display === "none" ? "block" : "none";
+            };
 
-      // Add comment form
-      const form = document.createElement("form");
-      form.className = "comment-form";
-
-      const input = document.createElement("input");
-      input.type = "text";
-      input.placeholder = "Write a comment...";
-      input.className = "comment-input";
-      input.required = true;
-
-      const submitBtn = document.createElement("button");
-      submitBtn.type = "submit";
-      submitBtn.className = "comment-submit-btn";
-      submitBtn.textContent = "Send";
-
-      form.appendChild(input);
-      form.appendChild(submitBtn);
-      container.appendChild(form);
-
-      // Submit comment handler
-      form.onsubmit = async (e) => {
-        e.preventDefault();
-        const text = input.value.trim();
-        if (!text) return;
-
-        try {
-          const postRef = doc(db, "posts", post.id);
-          const newComment = {
-            uid: currentUser.uid,
-            name: currentUserData.name,
-            profilePic: currentUserData.profilePic || "",
-            text: text,
-            createdAt: new Date()
-          };
-
-          await updateDoc(postRef, { comments: arrayUnion(newComment) });
-          input.value = "";
-          // Refresh comments
-          const updatedDoc = await getDoc(postRef);
-          renderComments(container, updatedDoc.data());
-        } catch (err) {
-          alert("Error posting comment: " + err.message);
-        }
-      };
-    }
-
-    // Clear inputs on logout
-    function clearInputs() {
-      document.getElementById("login-email").value = "";
-      document.getElementById("login-password").value = "";
-      document.getElementById("signup-name").value = "";
-      document.getElementById("signup-email").value = "";
-      document.getElementById("signup-password").value = "";
-      profileNameInput.value = "";
-      profilePicInput.value = "";
-      postText.value = "";
-      postImageInput.value = "";
-      postVideoInput.value = "";
-      mediaPreview.innerHTML = "";
-    }
-
-    // User search functionality
-    searchInput.oninput = async () => {
-      const term = searchInput.value.trim().toLowerCase();
-      userSearchResults.innerHTML = "";
-      if (!term) return;
-
-      try {
-        // Query users where name contains term (simple client side filtering)
-        const q = query(collection(db, "users"));
-        const querySnapshot = await getDocs(q);
-        const matchedUsers = [];
-
-        querySnapshot.forEach(docSnap => {
-          const user = docSnap.data();
-          if (user.name.toLowerCase().includes(term)) {
-            matchedUsers.push({ id: docSnap.id, ...user });
+            postsDiv.appendChild(postDiv);
           }
         });
-
-        if (matchedUsers.length === 0) {
-          userSearchResults.innerHTML = "<p>No users found</p>";
-        } else {
-          matchedUsers.forEach(user => {
-            const div = document.createElement("div");
-            div.className = "search-user";
-
-            const img = document.createElement("img");
-            img.src = user.profilePic || "https://via.placeholder.com/35?text=U";
-            img.alt = user.name;
-
-            const span = document.createElement("span");
-            span.textContent = user.name;
-
-            div.appendChild(img);
-            div.appendChild(span);
-
-            userSearchResults.appendChild(div);
-          });
-        }
-      } catch (err) {
-        userSearchResults.innerHTML = "<p>Error searching users</p>";
-      }
-    };
+      });
+    });
 
   </script>
+
 </body>
 </html>
