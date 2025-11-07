@@ -3,110 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🔥 Pa Mwera</title>
+  <title>Pa Mwera | Marketplace Social</title>
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0; padding: 0;
-      background: linear-gradient(135deg, #ff5252, #ff4081);
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background: #fff;
       color: #333;
     }
+
     header {
-      background: #c70000;
-      color: #fff;
-      padding: 1rem;
-      font-size: 1.8rem;
-      font-weight: bold;
+      background-color: #c70000;
+      color: white;
       text-align: center;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      padding: 2rem 0;          /* Increased padding */
+      font-size: 3rem;          /* Bigger font size */
+      font-weight: bold;
+      letter-spacing: 2px;      /* Wider letter spacing */
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
+
     main {
-      max-width: 900px;
-      margin: 2rem auto;
-      background: #fff;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
     }
-    .hidden { display: none; }
-    input, textarea {
-      width: 100%;
-      padding: 0.7rem;
-      margin: 0.5rem 0 1rem 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
+
+    #userInfo {
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
+    #userName {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #c70000;
+    }
+
     button {
-      background: #c70000;
+      background-color: #c70000;
       color: white;
       border: none;
-      padding: 0.8rem 1rem;
-      font-size: 1rem;
+      padding: 8px 15px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
     }
     button:hover {
-      background: #a50000;
+      background-color: #a80000;
     }
-    #posts {
-      margin-top: 2rem;
-    }
-    .post {
-      border: 1px solid #ddd;
+
+    #appSection input[type="text"],
+    #appSection input[type="number"],
+    #appSection textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
       border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      background: #fafafa;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1rem;
+      font-family: inherit;
     }
-    .post-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+
+    #appSection textarea {
+      resize: vertical;
     }
-    .profile-pic {
-      width: 50px; height: 50px;
-      border-radius: 50%;
-      background: #ddd;
-      object-fit: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+
+    #postMessage {
+      margin-top: 0.5rem;
+      font-weight: 600;
+    }
+
+    .post {
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px 0;
+      background: #fff0f0;
+      box-shadow: 1px 1px 5px rgba(199, 0, 0, 0.2);
+    }
+
+    .post .postUser {
       font-weight: bold;
-      font-size: 1.5rem;
       color: #c70000;
+      margin-bottom: 8px;
     }
-    .post-content img, .post-content video {
+
+    .post .postText {
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .post img, .post video {
       max-width: 100%;
       border-radius: 10px;
-      margin-top: 1rem;
+      margin-bottom: 8px;
     }
-    .actions {
-      margin-top: 1rem;
-      display: flex;
-      gap: 1rem;
+
+    .marketplaceInfo div {
+      margin: 3px 0;
     }
-    .action-btn {
+
+    .likeBtn {
+      background-color: transparent;
+      border: none;
       cursor: pointer;
       color: #c70000;
       font-weight: bold;
+      margin-right: 10px;
     }
-    #searchInput {
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      font-size: 1rem;
-      width: 100%;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    #marketplaceBtn {
-      margin-bottom: 1rem;
-      background-color: #ff4081;
-      border-radius: 10px;
-      width: 100%;
-      font-weight: 700;
+
+    .liked {
+      color: #a80000;
     }
   </style>
 </head>
@@ -115,82 +127,55 @@
   <header>🔥 Pa Mwera</header>
 
   <main>
-    <!-- Auth Section -->
-    <div id="authSection">
-      <div id="signupDiv">
-        <h2>Sign Up</h2>
-        <input id="signupName" type="text" placeholder="Full Name" />
-        <input id="signupEmail" type="email" placeholder="Email" />
-        <input id="signupPassword" type="password" placeholder="Password (6+ chars)" />
-        <button id="signupBtn">Sign Up</button>
-        <p>Already have an account? <a href="#" id="showLoginLink">Log In</a></p>
-        <p id="signupMessage" style="color:red;"></p>
-      </div>
-      <div id="loginDiv" class="hidden">
-        <h2>Log In</h2>
-        <input id="loginEmail" type="email" placeholder="Email" />
-        <input id="loginPassword" type="password" placeholder="Password" />
-        <button id="loginBtn">Log In</button>
-        <p>Don't have an account? <a href="#" id="showSignupLink">Sign Up</a></p>
-        <p id="loginMessage" style="color:red;"></p>
-      </div>
+    <div id="userInfo">
+      <span>Logged in as: <span id="userName">Guest</span></span>
+      <button id="logoutBtn" style="display:none;">Logout</button>
     </div>
 
-    <!-- Main App Section -->
-    <div id="appSection" class="hidden">
-      <p>Welcome, <span id="userName"></span>! <button id="logoutBtn">Logout</button></p>
-
-      <input id="searchInput" placeholder="Search users..." />
-
-      <button id="marketplaceBtn">Go to Marketplace</button>
-
-      <h3>Create a Post</h3>
+    <section id="appSection" style="display:none;">
+      <!-- Marketplace Post Form -->
+      <input id="itemName" type="text" placeholder="Item Name" />
+      <input id="itemPrice" type="number" min="0" step="0.01" placeholder="Price (e.g., 100.00)" />
+      <input id="itemLocation" type="text" placeholder="Location" />
+      <input id="itemContact" type="text" placeholder="Contact Info (phone/email)" />
       <textarea id="postText" placeholder="What are you selling?" rows="3"></textarea>
-      <input type="file" id="postMedia" accept="image/*,video/*" />
+      <input id="postMedia" type="file" accept="image/*,video/*" />
       <button id="postBtn">Post</button>
-      <p id="postMessage" style="color:red;"></p>
+      <p id="postMessage"></p>
+    </section>
 
-      <h3>Posts</h3>
-      <div id="posts"></div>
-    </div>
+    <section id="postsSection"></section>
   </main>
 
-  <!-- Firebase -->
+  <!-- Firebase SDKs -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
     import {
       getAuth,
-      createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
-      signOut,
+      createUserWithEmailAndPassword,
       onAuthStateChanged,
-      updateProfile
-    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
     import {
       getFirestore,
       collection,
       addDoc,
-      doc,
-      setDoc,
-      getDoc,
-      getDocs,
+      onSnapshot,
       query,
       orderBy,
       serverTimestamp,
-      onSnapshot,
       updateDoc,
-      arrayUnion,
-      arrayRemove,
-      where
-    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+      doc
+    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
     import {
       getStorage,
       ref,
       uploadBytes,
       getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
+    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js";
 
-    // Your Firebase config
+    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyC92g51j4qHlLgvf1GBHJfR58BlJ5rg7JQ",
       authDomain: "pa-mwera-social.firebaseapp.com",
@@ -200,148 +185,87 @@
       appId: "1:255473977095:web:ef6afedb928070f60027a2"
     };
 
-    // Init Firebase
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const storage = getStorage(app);
 
     // DOM elements
-    const authSection = document.getElementById("authSection");
-    const signupDiv = document.getElementById("signupDiv");
-    const loginDiv = document.getElementById("loginDiv");
-    const showLoginLink = document.getElementById("showLoginLink");
-    const showSignupLink = document.getElementById("showSignupLink");
-    const signupBtn = document.getElementById("signupBtn");
-    const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const signupMessage = document.getElementById("signupMessage");
-    const loginMessage = document.getElementById("loginMessage");
     const userNameSpan = document.getElementById("userName");
+    const logoutBtn = document.getElementById("logoutBtn");
     const appSection = document.getElementById("appSection");
-    const postBtn = document.getElementById("postBtn");
+    const postsSection = document.getElementById("postsSection");
+
+    const itemNameInput = document.getElementById("itemName");
+    const itemPriceInput = document.getElementById("itemPrice");
+    const itemLocationInput = document.getElementById("itemLocation");
+    const itemContactInput = document.getElementById("itemContact");
     const postText = document.getElementById("postText");
     const postMedia = document.getElementById("postMedia");
+    const postBtn = document.getElementById("postBtn");
     const postMessage = document.getElementById("postMessage");
-    const postsDiv = document.getElementById("posts");
-    const searchInput = document.getElementById("searchInput");
-    const marketplaceBtn = document.getElementById("marketplaceBtn");
 
-    // Show login/signup toggle
-    showLoginLink.addEventListener("click", e => {
-      e.preventDefault();
-      signupDiv.classList.add("hidden");
-      loginDiv.classList.remove("hidden");
-      signupMessage.textContent = "";
-      loginMessage.textContent = "";
-    });
-    showSignupLink.addEventListener("click", e => {
-      e.preventDefault();
-      loginDiv.classList.add("hidden");
-      signupDiv.classList.remove("hidden");
-      signupMessage.textContent = "";
-      loginMessage.textContent = "";
-    });
+    // Helper to clear post inputs
+    function clearPostInputs() {
+      itemNameInput.value = "";
+      itemPriceInput.value = "";
+      itemLocationInput.value = "";
+      itemContactInput.value = "";
+      postText.value = "";
+      postMedia.value = "";
+    }
 
-    // Signup handler (no email verification)
-    signupBtn.addEventListener("click", async () => {
-      const name = document.getElementById("signupName").value.trim();
-      const email = document.getElementById("signupEmail").value.trim();
-      const password = document.getElementById("signupPassword").value.trim();
-
-      signupMessage.style.color = "red";
-      if (!name) {
-        signupMessage.textContent = "Please enter your full name.";
-        return;
-      }
-      if (!email) {
-        signupMessage.textContent = "Please enter your email.";
-        return;
-      }
-      if (password.length < 6) {
-        signupMessage.textContent = "Password must be at least 6 characters.";
-        return;
-      }
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Update display name in Firebase Auth profile
-        await updateProfile(user, { displayName: name });
-
-        // Save user details in Firestore
-        await setDoc(doc(db, "users", user.uid), {
-          name: name,
-          email: email,
-          profilePic: "",
-          createdAt: serverTimestamp()
-        });
-
-        signupMessage.style.color = "green";
-        signupMessage.textContent = "Account created! You can now log in.";
-      } catch (error) {
-        signupMessage.textContent = error.message;
+    // Authentication state change handler
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        userNameSpan.textContent = user.email || "User";
+        appSection.style.display = "block";
+        logoutBtn.style.display = "inline-block";
+        loadPosts();
+      } else {
+        userNameSpan.textContent = "Guest";
+        appSection.style.display = "none";
+        logoutBtn.style.display = "none";
+        postsSection.innerHTML = "";
       }
     });
 
-    // Login handler (no email verification check)
-    loginBtn.addEventListener("click", async () => {
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-      loginMessage.style.color = "red";
-
-      if (!email || !password) {
-        loginMessage.textContent = "Please fill in all fields.";
-        return;
-      }
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        // Success message removed here, UI will update onAuthStateChanged
-      } catch (error) {
-        loginMessage.textContent = error.message;
-      }
-    });
-
-    // Logout handler
+    // Logout button
     logoutBtn.addEventListener("click", async () => {
       await signOut(auth);
     });
 
-    // Listen for auth state changes
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        authSection.classList.add("hidden");
-        appSection.classList.remove("hidden");
-
-        // Get user details from Firestore
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          userNameSpan.textContent = userDoc.data().name || user.email;
-        } else {
-          userNameSpan.textContent = user.email;
-        }
-
-        loadPosts();
-      } else {
-        authSection.classList.remove("hidden");
-        appSection.classList.add("hidden");
-        signupMessage.textContent = "";
-        loginMessage.textContent = "";
-        postMessage.textContent = "";
-        postsDiv.innerHTML = "";
-        userNameSpan.textContent = "";
-      }
-    });
-
-    // Post creation (fixed bug here)
+    // Posting functionality
     postBtn.addEventListener("click", async () => {
       postMessage.style.color = "red";
+
       const text = postText.value.trim();
       const mediaFile = postMedia.files[0];
+
+      const itemName = itemNameInput.value.trim();
+      const itemPrice = itemPriceInput.value.trim();
+      const itemLocation = itemLocationInput.value.trim();
+      const itemContact = itemContactInput.value.trim();
+
       if (!text && !mediaFile) {
         postMessage.textContent = "Please add text or media to post.";
+        return;
+      }
+      if (!itemName) {
+        postMessage.textContent = "Please enter the item name.";
+        return;
+      }
+      if (!itemPrice || isNaN(parseFloat(itemPrice)) || parseFloat(itemPrice) < 0) {
+        postMessage.textContent = "Please enter a valid price.";
+        return;
+      }
+      if (!itemLocation) {
+        postMessage.textContent = "Please enter the location.";
+        return;
+      }
+      if (!itemContact) {
+        postMessage.textContent = "Please enter contact information.";
         return;
       }
 
@@ -359,13 +283,16 @@
           mediaType = mediaFile.type.startsWith("video") ? "video" : "image";
         }
 
-        // Create post doc
         await addDoc(collection(db, "posts"), {
           userId: auth.currentUser.uid,
           userName: userNameSpan.textContent,
           text: text,
           mediaURL: mediaURL,
           mediaType: mediaType,
+          itemName: itemName,
+          itemPrice: parseFloat(itemPrice),
+          itemLocation: itemLocation,
+          itemContact: itemContact,
           likes: [],
           comments: [],
           createdAt: serverTimestamp()
@@ -373,57 +300,50 @@
 
         postMessage.style.color = "green";
         postMessage.textContent = "Post created!";
-        postText.value = "";
-        postMedia.value = "";
+        clearPostInputs();
       } catch (error) {
         postMessage.textContent = "Error posting: " + error.message;
+      } finally {
+        postBtn.disabled = false;
       }
-
-      postBtn.disabled = false;
     });
 
-    // Load and display posts (unchanged)
+    // Load posts in real-time and render them
     function loadPosts() {
+      postsSection.innerHTML = "Loading posts...";
       const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-      onSnapshot(postsQuery, (snapshot) => {
-        postsDiv.innerHTML = "";
+
+      onSnapshot(postsQuery, snapshot => {
+        postsSection.innerHTML = "";
+        if (snapshot.empty) {
+          postsSection.textContent = "No posts yet.";
+          return;
+        }
+
         snapshot.forEach(docSnap => {
           const post = docSnap.data();
-          const postId = docSnap.id;
-          const isLiked = post.likes.includes(auth.currentUser.uid);
-
-          // Create post container
           const postDiv = document.createElement("div");
           postDiv.classList.add("post");
 
-          // Post header
-          const headerDiv = document.createElement("div");
-          headerDiv.classList.add("post-header");
+          // User name
+          const userDiv = document.createElement("div");
+          userDiv.classList.add("postUser");
+          userDiv.textContent = post.userName;
+          postDiv.appendChild(userDiv);
 
-          // Profile pic placeholder (no upload in this demo)
-          const profilePic = document.createElement("div");
-          profilePic.classList.add("profile-pic");
-          profilePic.textContent = post.userName.charAt(0).toUpperCase();
+          // Post text
+          if (post.text) {
+            const textDiv = document.createElement("div");
+            textDiv.classList.add("postText");
+            textDiv.textContent = post.text;
+            postDiv.appendChild(textDiv);
+          }
 
-          const nameSpan = document.createElement("span");
-          nameSpan.textContent = post.userName;
-
-          headerDiv.appendChild(profilePic);
-          headerDiv.appendChild(nameSpan);
-          postDiv.appendChild(headerDiv);
-
-          // Post text content
-          const textDiv = document.createElement("div");
-          textDiv.classList.add("post-content");
-          textDiv.textContent = post.text;
-          postDiv.appendChild(textDiv);
-
-          // Media if any
+          // Media (image/video)
           if (post.mediaURL) {
             if (post.mediaType === "image") {
               const img = document.createElement("img");
               img.src = post.mediaURL;
-              img.alt = "Post image";
               postDiv.appendChild(img);
             } else if (post.mediaType === "video") {
               const video = document.createElement("video");
@@ -433,235 +353,44 @@
             }
           }
 
-          // Actions: Like, Comment, Share
-          const actionsDiv = document.createElement("div");
-          actionsDiv.classList.add("actions");
+          // Marketplace info
+          const marketDiv = document.createElement("div");
+          marketDiv.classList.add("marketplaceInfo");
+          if (post.itemName) {
+            const itemNameDiv = document.createElement("div");
+            itemNameDiv.textContent = `Item: ${post.itemName}`;
+            marketDiv.appendChild(itemNameDiv);
+          }
+          if (post.itemPrice !== undefined) {
+            const priceDiv = document.createElement("div");
+            priceDiv.textContent = `Price: $${post.itemPrice.toFixed(2)}`;
+            marketDiv.appendChild(priceDiv);
+          }
+          if (post.itemLocation) {
+            const locationDiv = document.createElement("div");
+            locationDiv.textContent = `Location: ${post.itemLocation}`;
+            marketDiv.appendChild(locationDiv);
+          }
+          if (post.itemContact) {
+            const contactDiv = document.createElement("div");
+            contactDiv.textContent = `Contact: ${post.itemContact}`;
+            marketDiv.appendChild(contactDiv);
+          }
+          postDiv.appendChild(marketDiv);
 
-          // Like button
-          const likeBtn = document.createElement("span");
-          likeBtn.classList.add("action-btn");
-          likeBtn.textContent = isLiked ? `❤️ Unlike (${post.likes.length})` : `🤍 Like (${post.likes.length})`;
-          likeBtn.onclick = async () => {
-            const postRef = doc(db, "posts", postId);
-            if (isLiked) {
-              await updateDoc(postRef, {
-                likes: arrayRemove(auth.currentUser.uid)
-              });
-            } else {
-              await updateDoc(postRef, {
-                likes: arrayUnion(auth.currentUser.uid)
-              });
-            }
-          };
-          actionsDiv.appendChild(likeBtn);
+          // Likes & Comments placeholders (you can extend later)
+          const likeBtn = document.createElement("button");
+          likeBtn.textContent = `Like (${post.likes ? post.likes.length : 0})`;
+          likeBtn.classList.add("likeBtn");
+          postDiv.appendChild(likeBtn);
 
-          // Comment button and UI
-          const commentBtn = document.createElement("span");
-          commentBtn.classList.add("action-btn");
-          commentBtn.textContent = `💬 Comment (${post.comments.length})`;
-          actionsDiv.appendChild(commentBtn);
-
-          postDiv.appendChild(actionsDiv);
-
-          // Comment section (hidden by default)
-          const commentSection = document.createElement("div");
-          commentSection.style.marginTop = "1rem";
-          commentSection.style.display = "none";
-
-          // Comments list
-          const commentsList = document.createElement("div");
-          post.comments.forEach(cmt => {
-            const cmtDiv = document.createElement("div");
-            cmtDiv.textContent = `${cmt.name}: ${cmt.text}`;
-            commentsList.appendChild(cmtDiv);
-          });
-          commentSection.appendChild(commentsList);
-
-          // Add comment input and button
-          const commentInput = document.createElement("input");
-          commentInput.placeholder = "Add a comment...";
-          commentInput.style.marginTop = "0.5rem";
-
-          const commentAddBtn = document.createElement("button");
-          commentAddBtn.textContent = "Post Comment";
-
-          commentAddBtn.onclick = async () => {
-            const cText = commentInput.value.trim();
-            if (!cText) return;
-            const postRef = doc(db, "posts", postId);
-            await updateDoc(postRef, {
-              comments: arrayUnion({
-                uid: auth.currentUser.uid,
-                name: userNameSpan.textContent,
-                text: cText,
-                createdAt: serverTimestamp()
-              })
-            });
-            commentInput.value = "";
-          };
-
-          commentSection.appendChild(commentInput);
-          commentSection.appendChild(commentAddBtn);
-
-          postDiv.appendChild(commentSection);
-
-          commentBtn.onclick = () => {
-            commentSection.style.display = commentSection.style.display === "none" ? "block" : "none";
-          };
-
-          postsDiv.appendChild(postDiv);
+          // Append post to postsSection
+          postsSection.appendChild(postDiv);
         });
       });
     }
 
-    // User search (by name)
-    searchInput.addEventListener("input", async () => {
-      const searchTerm = searchInput.value.trim().toLowerCase();
-      if (!searchTerm) {
-        loadPosts();
-        return;
-      }
-      // Search users by name
-      const usersRef = collection(db, "users");
-      const q = query(usersRef, where("name", ">=", searchTerm), where("name", "<=", searchTerm + "\uf8ff"));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        postsDiv.innerHTML = `<p>No users found with that name.</p>`;
-        return;
-      }
-
-      // Load posts only from matched users
-      const userIds = [];
-      querySnapshot.forEach(doc => userIds.push(doc.id));
-
-      const postsRef = collection(db, "posts");
-      const postsQuery = query(postsRef, orderBy("createdAt", "desc"));
-      onSnapshot(postsQuery, (snapshot) => {
-        postsDiv.innerHTML = "";
-        snapshot.forEach(docSnap => {
-          const post = docSnap.data();
-          if (userIds.includes(post.userId)) {
-            // ...render post (similar to loadPosts logic)
-            const postId = docSnap.id;
-            const isLiked = post.likes.includes(auth.currentUser.uid);
-
-            const postDiv = document.createElement("div");
-            postDiv.classList.add("post");
-
-            const headerDiv = document.createElement("div");
-            headerDiv.classList.add("post-header");
-
-            const profilePic = document.createElement("div");
-            profilePic.classList.add("profile-pic");
-            profilePic.textContent = post.userName.charAt(0).toUpperCase();
-
-            const nameSpan = document.createElement("span");
-            nameSpan.textContent = post.userName;
-
-            headerDiv.appendChild(profilePic);
-            headerDiv.appendChild(nameSpan);
-            postDiv.appendChild(headerDiv);
-
-            const textDiv = document.createElement("div");
-            textDiv.classList.add("post-content");
-            textDiv.textContent = post.text;
-            postDiv.appendChild(textDiv);
-
-            if (post.mediaURL) {
-              if (post.mediaType === "image") {
-                const img = document.createElement("img");
-                img.src = post.mediaURL;
-                img.alt = "Post image";
-                postDiv.appendChild(img);
-              } else if (post.mediaType === "video") {
-                const video = document.createElement("video");
-                video.src = post.mediaURL;
-                video.controls = true;
-                postDiv.appendChild(video);
-              }
-            }
-
-            const actionsDiv = document.createElement("div");
-            actionsDiv.classList.add("actions");
-
-            const likeBtn = document.createElement("span");
-            likeBtn.classList.add("action-btn");
-            likeBtn.textContent = isLiked ? `❤️ Unlike (${post.likes.length})` : `🤍 Like (${post.likes.length})`;
-            likeBtn.onclick = async () => {
-              const postRef = doc(db, "posts", postId);
-              if (isLiked) {
-                await updateDoc(postRef, {
-                  likes: arrayRemove(auth.currentUser.uid)
-                });
-              } else {
-                await updateDoc(postRef, {
-                  likes: arrayUnion(auth.currentUser.uid)
-                });
-              }
-            };
-            actionsDiv.appendChild(likeBtn);
-
-            const commentBtn = document.createElement("span");
-            commentBtn.classList.add("action-btn");
-            commentBtn.textContent = `💬 Comment (${post.comments.length})`;
-            actionsDiv.appendChild(commentBtn);
-
-            postDiv.appendChild(actionsDiv);
-
-            const commentSection = document.createElement("div");
-            commentSection.style.marginTop = "1rem";
-            commentSection.style.display = "none";
-
-            const commentsList = document.createElement("div");
-            post.comments.forEach(cmt => {
-              const cmtDiv = document.createElement("div");
-              cmtDiv.textContent = `${cmt.name}: ${cmt.text}`;
-              commentsList.appendChild(cmtDiv);
-            });
-            commentSection.appendChild(commentsList);
-
-            const commentInput = document.createElement("input");
-            commentInput.placeholder = "Add a comment...";
-            commentInput.style.marginTop = "0.5rem";
-
-            const commentAddBtn = document.createElement("button");
-            commentAddBtn.textContent = "Post Comment";
-
-            commentAddBtn.onclick = async () => {
-              const cText = commentInput.value.trim();
-              if (!cText) return;
-              const postRef = doc(db, "posts", postId);
-              await updateDoc(postRef, {
-                comments: arrayUnion({
-                  uid: auth.currentUser.uid,
-                  name: userNameSpan.textContent,
-                  text: cText,
-                  createdAt: serverTimestamp()
-                })
-              });
-              commentInput.value = "";
-            };
-
-            commentSection.appendChild(commentInput);
-            commentSection.appendChild(commentAddBtn);
-
-            postDiv.appendChild(commentSection);
-
-            commentBtn.onclick = () => {
-              commentSection.style.display = commentSection.style.display === "none" ? "block" : "none";
-            };
-
-            postsDiv.appendChild(postDiv);
-          }
-        });
-      });
-    });
-
-    // Marketplace button (just alert for demo)
-    marketplaceBtn.addEventListener("click", () => {
-      alert("Marketplace feature coming soon!");
-    });
   </script>
+
 </body>
 </html>
