@@ -1,245 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pa Mwera | Login or Signup</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      background: #fff;
-      color: #333;
-      text-align: center;
-      padding: 20px;
-    }
-    header {
-      background-color: #c70000;
-      color: white;
-      padding: 1rem 0;
-      font-size: 1.8rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      margin-bottom: 20px;
-    }
-    .form-box {
-      margin: auto;
-      max-width: 350px;
-      background: white;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-    h2 {
-      color: #c70000;
-      margin-bottom: 1rem;
-    }
-    input {
-      width: 90%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      outline: none;
-      font-size: 1rem;
-    }
-    button {
-      width: 95%;
-      padding: 0.8rem;
-      background-color: #c70000;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      margin-top: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #a80000;
-    }
-    p {
-      font-size: 0.9rem;
-    }
-    a {
-      color: #c70000;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    #message {
-      font-weight: 600;
-      margin: 1rem auto;
-      max-width: 350px;
-    }
-    #facebookLoginBtn {
-      background-color: #3b5998; /* Facebook Blue */
-      margin-top: 10px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pa Mwera — Social & Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+<style>
+  :root{
+    --accent1:#ff4d4f; /* red */
+    --accent2:#5b21b6; /* purple */
+    --bg:#f6f7fb;
+    --card:#ffffff;
+    --muted:#6b7280;
+  }
+  *{box-sizing:border-box;font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  body{margin:0;background:linear-gradient(135deg,#fff 0%,#fff8f9 40%, #f3f6ff 100%);color:#111}
+  header{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;padding:18px 16px;text-align:center;font-size:1.4rem;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+  main{max-width:1100px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:320px 1fr 360px;gap:18px}
+  /* left column (auth/profile) */
+  .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(15,15,15,0.04)}
+  .small{font-size:.86rem;color:var(--muted)}
+  input[type="text"],input[type="email"],input[type="password"],textarea,select{
+    width:100%;padding:10px;border-radius:10px;border:1px solid #e6e9ef;margin-top:8px;font-size:0.95rem
+  }
+  button{appearance:none;border:0;padding:10px 12px;border-radius:10px;background:var(--accent1);color:#fff;font-weight:600;cursor:pointer}
+  .btn-facebook{background:#1877f2}
+  .muted{color:var(--muted);font-size:.9rem}
+  .avatar{width:72px;height:72px;border-radius:14px;object-fit:cover;display:block;margin-bottom:10px}
+  .center{text-align:center}
+  /* feed column */
+  .composer textarea{min-height:72px;resize:vertical}
+  .post{border-radius:12px;padding:12px;margin-bottom:14px;background:linear-gradient(180deg,#fff,#fff);box-shadow:0 6px 12px rgba(12,12,12,0.03)}
+  .post .meta{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .post .meta img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+  .post .content{margin-bottom:8px}
+  .post .attachments img, .post .attachments video, .post .attachments audio{max-width:100%;border-radius:8px;margin-top:8px}
+  .actions{display:flex;gap:8px;align-items:center}
+  .reaction{cursor:pointer;padding:8px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:8px;border:1px solid #f1f1f1;background:#fff}
+  .reaction.liked{background:linear-gradient(90deg,#ffeef0,#ffdce0);border-color:#ffccd5}
+  .comment-list{margin-top:10px;padding-left:44px}
+  .comment{padding:8px 0;border-top:1px solid #f2f4f7}
+  /* right column (marketplace) */
+  .listing{border-radius:12px;padding:12px;margin-bottom:12px;background:#fff}
+  .thumbnail{width:100%;object-fit:cover;border-radius:8px}
+  /* responsive */
+  @media (max-width:1050px){main{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
 
-  <header>🔥 Pa Mwera</header>
+<header>🔥 Pa Mwera — Social & Marketplace</header>
 
-  <div class="form-box" id="loginForm">
-    <h2>Login</h2>
-    <input type="email" id="loginEmail" placeholder="Email" />
-    <input type="password" id="loginPassword" placeholder="Password" />
-    <button id="loginBtn">Login</button>
-    <p>Don't have an account? <a id="showSignup">Sign up</a></p>
-  </div>
+<main>
+  <!-- LEFT: Auth & Profile -->
+  <section id="leftCol" class="card">
+    <div id="authArea">
+      <h3 id="authTitle">Welcome — Sign in / Create account</h3>
 
-  <div class="form-box" id="signupForm" style="display:none;">
-    <h2>Create Account</h2>
-    <input type="email" id="signupEmail" placeholder="Email" />
-    <input type="password" id="signupPassword" placeholder="Password (6+ characters)" />
-    <button id="signupBtn">Sign Up</button>
-    <p>Already have an account? <a id="showLogin">Login</a></p>
-  </div>
+      <div id="authForms">
+        <div id="loginBox">
+          <input id="loginEmail" type="email" placeholder="Email" />
+          <input id="loginPassword" type="password" placeholder="Password" />
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="loginBtn" style="flex:1">Log in</button>
+            <button id="showSignup" style="flex:1;background:#fff;color:var(--accent2);border:1px solid #eee">Sign up</button>
+          </div>
+          <button id="facebookBtn" class="btn-facebook" style="width:100%;margin-top:10px">Continue with Facebook</button>
+          <p class="small" style="margin-top:12px"><a id="forgotLink" href="#" style="color:var(--accent2)">Forgot password?</a></p>
+          <p id="authMessage" class="small muted"></p>
+        </div>
 
-  <button id="facebookLoginBtn">Login with Facebook</button>
+        <div id="signupBox" style="display:none">
+          <input id="signupEmail" type="email" placeholder="Email" />
+          <input id="signupPassword" type="password" placeholder="Password (min 6 chars)" />
+          <input id="signupUsername" type="text" placeholder="Choose a username" />
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="signupBtn" style="flex:1">Create account</button>
+            <button id="showLogin" style="flex:1;background:#fff;color:var(--accent2);border:1px solid #eee">Back</button>
+          </div>
+          <p id="signupMessage" class="small muted"></p>
+        </div>
+      </div>
+    </div>
 
-  <div id="message"></div>
+    <hr style="margin:16px 0;border:none;border-top:1px dashed #f0f0f3">
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      sendEmailVerification,
-      signInWithPopup,
-      FacebookAuthProvider,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+    <div id="profileArea" style="display:none">
+      <div class="center">
+        <img id="profilePicPreview" class="avatar" src="https://via.placeholder.com/140x140.png?text=Pa+Mwera" alt="profile"/>
+        <div class="small muted">Upload a profile picture</div>
+      </div>
+      <input id="profileUsername" type="text" placeholder="Display name" />
+      <input id="profileBio" type="text" placeholder="Bio (e.g. designer, seller...)" />
+      <input id="profilePicFile" type="file" accept="image/*" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="saveProfileBtn" style="flex:1">Save profile</button>
+        <button id="logoutBtn" style="flex:1;background:#fff;color:#333;border:1px solid #eee">Logout</button>
+      </div>
+      <p id="profileMessage" class="small muted"></p>
+    </div>
+  </section>
 
-    // Your Firebase config (replace with your config)
-    const firebaseConfig = {
-      apiKey: "AIzaSyC92g51j4qHlLgvf1GBHJfR58BlJ5rg7JQ",
-      authDomain: "pa-mwera-social.firebaseapp.com",
-      projectId: "pa-mwera-social",
-      storageBucket: "pa-mwera-social.appspot.com",
-      messagingSenderId: "255473977095",
-      appId: "1:255473977095:web:f00d408a2f9693040027a2"
-    };
+  <!-- CENTER: Feed -->
+  <section id="centerCol">
+    <div class="card composer">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <img id="composerAvatar" src="https://via.placeholder.com/72" style="width:56px;height:56px;border-radius:12px;object-fit:cover" alt="me">
+        <div style="flex:1">
+          <textarea id="composerText" placeholder="What's on your mind?" rows="3" style="border-radius:8px;padding:10px;width:100%;"></textarea>
+          <div style="display:flex;gap:10px;margin-top:8px;align-items:center">
+            <input id="composerFile" type="file" accept="image/*,video/*,audio/*,.pdf" />
+            <button id="postBtn">Post</button>
+            <div id="composerMsg" class="small muted"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    <div id="feed" class="card" style="padding:12px">
+      <h3 style="margin-top:0">Feed</h3>
+      <div id="postsList"><div class="small muted">No posts yet.</div></div>
+    </div>
+  </section>
 
-    // DOM elements
-    const loginForm = document.getElementById("loginForm");
-    const signupForm = document.getElementById("signupForm");
-    const showSignup = document.getElementById("showSignup");
-    const showLogin = document.getElementById("showLogin");
-    const loginBtn = document.getElementById("loginBtn");
-    const signupBtn = document.getElementById("signupBtn");
-    const facebookLoginBtn = document.getElementById("facebookLoginBtn");
-    const message = document.getElementById("message");
+  <!-- RIGHT: Marketplace -->
+  <aside id="rightCol" class="card">
+    <h3>Marketplace</h3>
+    <div style="margin-bottom:12px">
+      <input id="itemTitle" placeholder="Item title" />
+      <input id="itemPrice" placeholder="Price (e.g. 350)" type="number" />
+      <input id="itemImages" type="file" accept="image/*" multiple />
+      <button id="createListingBtn" style="margin-top:8px">Create listing</button>
+      <p id="listingMsg" class="small muted"></p>
+    </div>
+    <div id="marketplaceList"><div class="small muted">No listings yet.</div></div>
+  </aside>
+</main>
 
-    // Show/hide forms
-    showSignup.addEventListener("click", () => {
-      loginForm.style.display = "none";
-      signupForm.style.display = "block";
-      message.textContent = "";
-    });
-    showLogin.addEventListener("click", () => {
-      signupForm.style.display = "none";
-      loginForm.style.display = "block";
-      message.textContent = "";
-    });
+<!-- Firebase SDK (module) -->
+<script type="module">
+  // Imports (CDN)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut,
+    FacebookAuthProvider,
+    signInWithPopup,
+    sendEmailVerification
+  } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+  import {
+    getFirestore, doc, setDoc, getDoc, addDoc, collection, query, orderBy, onSnapshot, serverTimestamp, updateDoc, arrayUnion, arrayRemove
+  } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+  import {
+    getStorage, ref as sRef, uploadBytesResumable, getDownloadURL, uploadBytes
+  } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
 
-    // Signup handler
-    signupBtn.addEventListener("click", async () => {
-      const email = document.getElementById("signupEmail").value.trim();
-      const password = document.getElementById("signupPassword").value.trim();
-      message.style.color = "red";
+  // ----- Your Firebase config (inserted) -----
+  const firebaseConfig = {
+    apiKey: "AIzaSyC92g51j4qHlLgvf1GBHJfR58BlJ5rg7JQ",
+    authDomain: "pa-mwera-social.firebaseapp.com",
+    projectId: "pa-mwera-social",
+    storageBucket: "pa-mwera-social.firebasestorage.app",
+    messagingSenderId: "255473977095",
+    appId: "1:255473977095:web:ef6afedb928070f60027a2"
+  };
 
-      if (!email || !password) {
-        message.textContent = "Please fill in all fields.";
+  // Initialize
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+  const fbProvider = new FacebookAuthProvider();
+
+  // UI refs
+  const loginEmail = document.getElementById('loginEmail');
+  const loginPassword = document.getElementById('loginPassword');
+  const loginBtn = document.getElementById('loginBtn');
+  const showSignupBtn = document.getElementById('showSignup');
+  const showLoginBtn = document.getElementById('showLogin');
+  const signupEmail = document.getElementById('signupEmail');
+  const signupPassword = document.getElementById('signupPassword');
+  const signupUsername = document.getElementById('signupUsername');
+  const signupBtn = document.getElementById('signupBtn');
+  const authMessage = document.getElementById('authMessage');
+  const signupMessage = document.getElementById('signupMessage');
+  const facebookBtn = document.getElementById('facebookBtn');
+  const forgotLink = document.getElementById('forgotLink');
+
+  const profileArea = document.getElementById('profileArea');
+  const profileUsername = document.getElementById('profileUsername');
+  const profileBio = document.getElementById('profileBio');
+  const profilePicFile = document.getElementById('profilePicFile');
+  const profilePicPreview = document.getElementById('profilePicPreview');
+  const saveProfileBtn = document.getElementById('saveProfileBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const profileMessage = document.getElementById('profileMessage');
+
+  const composerText = document.getElementById('composerText');
+  const composerFile = document.getElementById('composerFile');
+  const postBtn = document.getElementById('postBtn');
+  const postsList = document.getElementById('postsList');
+  const composerAvatar = document.getElementById('composerAvatar');
+  const composerMsg = document.getElementById('composerMsg');
+
+  const itemTitle = document.getElementById('itemTitle');
+  const itemPrice = document.getElementById('itemPrice');
+  const itemImages = document.getElementById('itemImages');
+  const createListingBtn = document.getElementById('createListingBtn');
+  const listingMsg = document.getElementById('listingMsg');
+  const marketplaceList = document.getElementById('marketplaceList');
+
+  // State
+  let currentUser = null;
+  let currentProfile = null;
+
+  // UI helpers
+  function showAuth() {
+    document.getElementById('authArea').style.display = 'block';
+    profileArea.style.display = 'none';
+    document.getElementById('leftCol').style.display = 'block';
+  }
+  function showProfileSetup() {
+    document.getElementById('authArea').style.display = 'none';
+    profileArea.style.display = 'block';
+  }
+
+  // Toggle login/signup UI
+  showSignupBtn.onclick = () => { document.getElementById('loginBox').style.display='none'; document.getElementById('signupBox').style.display='block'; signupMessage.textContent=''; authMessage.textContent=''; }
+  showLoginBtn.onclick = () => { document.getElementById('signupBox').style.display='none'; document.getElementById('loginBox').style.display='block'; signupMessage.textContent=''; authMessage.textContent=''; }
+
+  // --- AUTH: Signup (email) ---
+  signupBtn.onclick = async () => {
+    signupMessage.textContent = '';
+    const email = signupEmail.value.trim();
+    const password = signupPassword.value.trim();
+    const username = signupUsername.value.trim();
+
+    if (!email || !password || password.length < 6 || !username) {
+      signupMessage.style.color = 'red';
+      signupMessage.textContent = 'Fill email, choose password (6+ chars) and username.';
+      return;
+    }
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      // Save basic profile in Firestore and send verification
+      await setDoc(doc(db,'users',cred.user.uid), { email, username, created: serverTimestamp() });
+      await sendEmailVerification(cred.user);
+      signupMessage.style.color = 'green';
+      signupMessage.textContent = 'Account created. Verification email sent. Check inbox (or spam).';
+      signupEmail.value=''; signupPassword.value=''; signupUsername.value='';
+      // show login box
+      document.getElementById('signupBox').style.display='none';
+      document.getElementById('loginBox').style.display='block';
+    } catch (err) {
+      signupMessage.style.color = 'red';
+      signupMessage.textContent = err.message;
+    }
+  };
+
+  // --- AUTH: Login (email) ---
+  loginBtn.onclick = async () => {
+    authMessage.textContent = '';
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value.trim();
+    if (!email || !password) { authMessage.style.color='red'; authMessage.textContent='Enter email and password'; return; }
+    try {
+      const cred = await signInWithEmailAndPassword(auth,email,password);
+      // check email verification
+      if (!cred.user.emailVerified) {
+        authMessage.style.color='orange';
+        authMessage.textContent='Please verify your email before using the app. Check inbox or spam.';
+        await signOut(auth);
         return;
       }
-      if (password.length < 6) {
-        message.textContent = "Password must be at least 6 characters.";
-        return;
-      }
+      authMessage.style.color='green';
+      authMessage.textContent='Logged in. Loading your profile...';
+    } catch (err) {
+      authMessage.style.color='red';
+      authMessage.textContent = err.message;
+    }
+  };
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        await sendEmailVerification(user);
-        message.style.color = "green";
-        message.textContent = `Account created! Verification email sent to ${email}. Please verify your email before logging in.`;
-        signupForm.style.display = "none";
-        loginForm.style.display = "block";
-      } catch (error) {
-        message.textContent = error.message;
+  // --- AUTH: Facebook (button present even if you haven't setup FB) ---
+  facebookBtn.onclick = async () => {
+    // If Firebase Facebook provider is not configured in Firebase Console, this will fail.
+    // We'll catch the error and show setup steps.
+    try {
+      const result = await signInWithPopup(auth, fbProvider);
+      // Save / merge user document
+      await setDoc(doc(db,'users',result.user.uid), {
+        email: result.user.email || null,
+        username: result.user.displayName || '',
+        photoURL: result.user.photoURL || ''
+      }, { merge:true });
+      console.log('fb login ok', result.user);
+    } catch (err) {
+      console.error(err);
+      authMessage.style.color='red';
+      authMessage.textContent = 'Facebook sign-in failed. To enable it: create a Facebook app and enable Facebook provider in Firebase Console. Click here for steps.';
+      // show short steps
+      authMessage.innerHTML += `<div class="small muted" style="margin-top:6px;text-align:left">
+        1) Create Facebook App at developers.facebook.com → Add "Facebook Login".<br>
+        2) In Firebase Console → Auth → Sign-in methods → Facebook → add App ID & Secret and save.<br>
+        3) Add OAuth redirect: <code>https://${location.hostname}/__/auth/handler</code> (for GitHub Pages use your domain).<br>
+        After setup try again.
+      </div>`;
+    }
+  };
+
+  // Forgot password
+  forgotLink.onclick = async (e) => {
+    e.preventDefault();
+    const email = prompt('Enter the email for password reset:');
+    if (!email) return;
+    try {
+      await sendPasswordResetEmail(auth,email);
+      authMessage.style.color='green';
+      authMessage.textContent = 'Password reset email sent. Check inbox.';
+    } catch (err) {
+      authMessage.style.color='red';
+      authMessage.textContent = err.message;
+    }
+  };
+
+  // --- PROFILE SAVE / UPLOAD ---
+  saveProfileBtn.onclick = async () => {
+    profileMessage.textContent=''; profileMessage.style.color='black';
+    const username = profileUsername.value.trim();
+    const bio = profileBio.value.trim();
+    if (!username) { profileMessage.style.color='red'; profileMessage.textContent='Enter a display name'; return; }
+    try {
+      let photoURL = currentProfile && currentProfile.photoURL ? currentProfile.photoURL : null;
+      if (profilePicFile.files.length > 0) {
+        const f = profilePicFile.files[0];
+        const ref = sRef(storage, `profilePics/${currentUser.uid}/${Date.now()}_${f.name}`);
+        const uploadTask = uploadBytesResumable(ref, f);
+        await new Promise((res, rej) => {
+          uploadTask.on('state_changed', null, rej, () => res());
+        });
+        photoURL = await getDownloadURL(ref);
       }
+      await setDoc(doc(db,'users',currentUser.uid), { username, bio, photoURL }, { merge:true });
+      profileMessage.style.color='green';
+      profileMessage.textContent='Profile saved';
+      await loadProfile(currentUser.uid);
+      renderComposer();
+    } catch (err) {
+      profileMessage.style.color='red';
+      profileMessage.textContent = err.message;
+    }
+  };
+
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+  };
+
+  // --- POST CREATE (text + one file) ---
+  postBtn.onclick = async () => {
+    if (!currentUser) { composerMsg.style.color='red'; composerMsg.textContent='Please login first'; return; }
+    const text = composerText.value.trim();
+    const file = composerFile.files[0];
+    if (!text && !file) { composerMsg.style.color='red'; composerMsg.textContent='Write text or choose a file'; return; }
+    composerMsg.textContent='Uploading...';
+    try {
+      let fileData = null;
+      if (file) {
+        const ref = sRef(storage, `posts/${currentUser.uid}/${Date.now()}_${file.name}`);
+        const task = uploadBytesResumable(ref, file);
+        await new Promise((res,rej)=> task.on('state_changed',null,rej,()=>res()));
+        const url = await getDownloadURL(ref);
+        fileData = { url, type: file.type, name: file.name };
+      }
+      await addDoc(collection(db,'posts'), {
+        authorId: currentUser.uid,
+        authorName: currentProfile?.username || currentUser.email,
+        authorPic: currentProfile?.photoURL || null,
+        text,
+        file: fileData,
+        createdAt: serverTimestamp(),
+        reactions: { like: [], love: [] }
+      });
+      composerText.value=''; composerFile.value=''; composerMsg.style.color='green'; composerMsg.textContent='Posted!';
+    } catch (err) {
+      composerMsg.style.color='red'; composerMsg.textContent = err.message;
+    }
+  };
+
+  // --- LISTEN TO POSTS (realtime) ---
+  function listenPosts() {
+    const q = query(collection(db,'posts'), orderBy('createdAt','desc'));
+    onSnapshot(q, snapshot => {
+      postsList.innerHTML = '';
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const id = docSnap.id;
+        const postEl = buildPostElement(id, data);
+        postsList.appendChild(postEl);
+      });
     });
+  }
 
-    // Login handler
-    loginBtn.addEventListener("click", async () => {
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-      message.style.color = "red";
+  // Build post DOM, attach reaction/comment handlers
+  function buildPostElement(postId, data) {
+    const container = document.createElement('div'); container.className='post';
+    const meta = document.createElement('div'); meta.className='meta';
+    const avatar = document.createElement('img'); avatar.src = data.authorPic || 'https://via.placeholder.com/120'; avatar.alt='a';
+    const name = document.createElement('div'); name.innerHTML = `<strong>${escapeHtml(data.authorName||'User')}</strong><div class="small muted">${data.createdAt ? new Date(data.createdAt.seconds*1000).toLocaleString() : ''}</div>`;
+    meta.appendChild(avatar); meta.appendChild(name);
+    container.appendChild(meta);
 
-      if (!email || !password) {
-        message.textContent = "Please fill in all fields.";
-        return;
-      }
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        if (!user.emailVerified) {
-          message.textContent = "Please verify your email before logging in.";
-          await signOut(auth); // sign out unverified user immediately
-          return;
-        }
-
-        message.style.color = "green";
-        message.textContent = `Welcome back, ${user.email}! You are logged in.`;
-        // TODO: Redirect or show main app UI here
-      } catch (error) {
-        message.textContent = error.message;
-      }
-    });
-
-    // Facebook login handler
-    facebookLoginBtn.addEventListener("click", async () => {
-      const provider = new FacebookAuthProvider();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        message.style.color = "green";
-        message.textContent = `Welcome, ${user.displayName || user.email}! You are logged in with Facebook.`;
-        // TODO: Redirect or show main app UI here
-      } catch (error) {
-        message.style.color = "red";
-        message.textContent = `Facebook login failed: ${error.message}`;
-      }
-    });
-
-    // Listen to auth state changes
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        if (user.emailVerified || user.providerData.some(p => p.providerId === 'facebook.com')) {
-          message.style.color = "green";
-          message.textContent = `Logged in as ${user.displayName || user.email}`;
-          // TODO: Show app main UI or redirect
-        } else {
-          message.style.color = "red";
-          message.textContent = "Please verify your email to unlock features.";
-          signOut(auth);
-        }
+    const content = document.createElement('div'); content.className='content';
+    if (data.text) {
+      const p = document.createElement('div'); p.textContent = data.text; content.appendChild(p);
+    }
+    if (data.file && data.file.url) {
+      const attach = document.createElement('div'); attach.className='attachments';
+      if (data.file.type.startsWith('image/')) {
+        const img = document.createElement('img'); img.src = data.file.url; attach.appendChild(img);
+      } else if (data.file.type.startsWith('video/')) {
+        const v = document.createElement('video'); v.controls=true; v.src = data.file.url; attach.appendChild(v);
+      } else if (data.file.type.startsWith('audio/')) {
+        const a = document.createElement('audio'); a.controls=true; a.src = data.file.url; attach.appendChild(a);
       } else {
-        // No user signed in
+        const a = document.createElement('a'); a.href = data.file.url; a.textContent = data.file.name || 'Attachment'; a.target='_blank'; attach.appendChild(a);
       }
+      content.appendChild(attach);
+    }
+    container.appendChild(content);
+
+    // actions: reactions & comment toggle
+    const actions = document.createElement('div'); actions.className='actions';
+    // like button
+    const likeBtn = document.createElement('div'); likeBtn.className='reaction'; likeBtn.innerHTML = `👍 <span class="count">${(data.reactions?.like?.length||0)}</span>`;
+    if (data.reactions?.like?.includes(currentUser?.uid)) likeBtn.classList.add('liked');
+    likeBtn.onclick = () => toggleReaction(postId,'like');
+    actions.appendChild(likeBtn);
+    // love button
+    const loveBtn = document.createElement('div'); loveBtn.className='reaction'; loveBtn.innerHTML = `❤️ <span class="count">${(data.reactions?.love?.length||0)}</span>`;
+    if (data.reactions?.love?.includes(currentUser?.uid)) loveBtn.classList.add('liked');
+    loveBtn.onclick = () => toggleReaction(postId,'love');
+    actions.appendChild(loveBtn);
+    // comment form
+    const commentBox = document.createElement('div'); commentBox.style.marginTop='10px';
+    const commentInput = document.createElement('input'); commentInput.placeholder='Write a comment...'; commentInput.style.width='70%';
+    const commentBtn = document.createElement('button'); commentBtn.textContent='Comment'; commentBtn.style.marginLeft='8px';
+    commentBtn.onclick = async () => {
+      const text = commentInput.value.trim(); if (!text) return;
+      try {
+        await addDoc(collection(db,'posts',postId,'comments'), {
+          authorId: currentUser.uid,
+          authorName: currentProfile?.username || currentUser.email,
+          text,
+          createdAt: serverTimestamp()
+        });
+        commentInput.value='';
+      } catch (err) { alert(err.message) }
+    };
+    commentBox.appendChild(commentInput); commentBox.appendChild(commentBtn);
+    container.appendChild(actions);
+    container.appendChild(commentBox);
+
+    // comment list (realtime)
+    const cList = document.createElement('div'); cList.className='comment-list';
+    const commentsQuery = collection(db,'posts',postId,'comments');
+    onSnapshot(query(commentsQuery, orderBy('createdAt','asc')), snap => {
+      cList.innerHTML=''; snap.forEach(cdoc => {
+        const c = cdoc.data();
+        const el = document.createElement('div'); el.className='comment';
+        el.innerHTML = `<strong>${escapeHtml(c.authorName||'User')}</strong> <div class="small muted">${c.createdAt ? new Date(c.createdAt.seconds*1000).toLocaleString() : ''}</div><div>${escapeHtml(c.text)}</div>`;
+        cList.appendChild(el);
+      });
     });
-  </script>
+    container.appendChild(cList);
+
+    return container;
+  }
+
+  // toggle reaction (like / love)
+  async function toggleReaction(postId, type) {
+    if (!currentUser) return alert('Login to react');
+    const postRef = doc(db,'posts',postId);
+    // naive: get doc snapshot, update array
+    const snap = await getDoc(postRef);
+    if (!snap.exists()) return;
+    const data = snap.data();
+    const arr = (data.reactions && data.reactions[type]) || [];
+    const uid = currentUser.uid;
+    const has = arr.includes(uid);
+    try {
+      if (has) {
+        // remove
+        await updateDoc(postRef, { [`reactions.${type}`]: arrayRemove(uid) });
+      } else {
+        await updateDoc(postRef, { [`reactions.${type}`]: arrayUnion(uid) });
+      }
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  // --- Marketplace create & listen ---
+  createListingBtn.onclick = async () => {
+    listingMsg.textContent=''; listingMsg.style.color='black';
+    if (!currentUser) { listingMsg.style.color='red'; listingMsg.textContent='Login to create listing'; return; }
+    const title = itemTitle.value.trim(); const price = parseFloat(itemPrice.value);
+    if (!title || !price) { listingMsg.style.color='red'; listingMsg.textContent='Title and price required'; return; }
+    try {
+      const images = [];
+      if (itemImages.files.length > 0) {
+        for (const f of itemImages.files) {
+          const ref = sRef(storage, `marketplace/${currentUser.uid}/${Date.now()}_${f.name}`);
+          const task = uploadBytesResumable(ref, f);
+          await new Promise((res,rej)=> task.on('state_changed', null, rej, ()=>res()));
+          const url = await getDownloadURL(ref);
+          images.push(url);
+        }
+      }
+      await addDoc(collection(db,'marketplace'), {
+        sellerId: currentUser.uid,
+        sellerName: currentProfile?.username || currentUser.email,
+        title, price, images,
+        createdAt: serverTimestamp()
+      });
+      itemTitle.value=''; itemPrice.value=''; itemImages.value='';
+      listingMsg.style.color='green'; listingMsg.textContent='Listing created';
+    } catch (err) {
+      listingMsg.style.color='red'; listingMsg.textContent = err.message;
+    }
+  };
+
+  function loadMarketplace() {
+    const q = query(collection(db,'marketplace'), orderBy('createdAt','desc'));
+    onSnapshot(q, snap => {
+      marketplaceList.innerHTML='';
+      snap.forEach(d => {
+        const data = d.data();
+        const box = document.createElement('div'); box.className='listing';
+        box.innerHTML = `<strong>${escapeHtml(data.title)}</strong><div class="small muted">By ${escapeHtml(data.sellerName)}</div>
+          <div style="margin-top:8px">${data.images && data.images.length ? `<img src="${data.images[0]}" class="thumbnail">` : ''}</div>
+          <div style="margin-top:8px"><strong>Price:</strong> ${data.price}</div>`;
+        marketplaceList.appendChild(box);
+      });
+    });
+  }
+
+  // --- load profile data ---
+  async function loadProfile(uid) {
+    const docSnap = await getDoc(doc(db,'users',uid));
+    currentProfile = docSnap.exists() ? docSnap.data() : null;
+    // update UI
+    composerAvatar.src = currentProfile?.photoURL || 'https://via.placeholder.com/120';
+    profilePicPreview.src = currentProfile?.photoURL || 'https://via.placeholder.com/140x140.png?text=Pa+Mwera';
+    profileUsername.value = currentProfile?.username || '';
+    profileBio.value = currentProfile?.bio || '';
+    document.getElementById('composerAvatar').src = currentProfile?.photoURL || 'https://via.placeholder.com/72';
+  }
+
+  // --- auth state listener ---
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    if (user) {
+      // if email provider and not verified, do not allow
+      if (user.providerData.some(p=>p.providerId==='password') && !user.emailVerified) {
+        // require verification
+        authMessage.style.color='orange';
+        authMessage.textContent='Please verify your email to use Pa Mwera (check inbox/spam).';
+        await signOut(auth);
+        return;
+      }
+      // load profile
+      await loadProfile(user.uid);
+      showProfileSetup();
+      // show feed & marketplace
+      document.getElementById('centerCol').style.display='block';
+      listenPosts(); loadMarketplace();
+    } else {
+      // anonymous view: show auth box
+      document.getElementById('authArea').style.display='block';
+      profileArea.style.display='none';
+      document.getElementById('centerCol').style.display='block';
+      postsList.innerHTML = '<div class="small muted">Sign in to create posts and interact.</div>';
+      marketplaceList.innerHTML = '<div class="small muted">Sign in to create listings.</div>';
+    }
+  });
+
+  // Utility escape
+  function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
+
+  // Initial listeners for marketplace / posts (public view)
+  listenPosts(); loadMarketplace();
+
+  // Minimal renderComposer (update composer avatar)
+  function renderComposer() {
+    composerAvatar.src = currentProfile?.photoURL || 'https://via.placeholder.com/72';
+  }
+
+</script>
 </body>
 </html>
