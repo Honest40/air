@@ -11,37 +11,32 @@
       background: #fff;
       color: #333;
     }
-
     header {
       background-color: #c70000;
       color: white;
       text-align: center;
-      padding: 2rem 0;          /* Increased padding */
-      font-size: 3rem;          /* Bigger font size */
+      padding: 2rem 0;
+      font-size: 3rem;
       font-weight: bold;
-      letter-spacing: 2px;      /* Wider letter spacing */
+      letter-spacing: 2px;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
-
     main {
       max-width: 800px;
       margin: 20px auto;
       padding: 0 20px;
     }
-
     #userInfo {
       margin-bottom: 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
     #userName {
       font-weight: 600;
       font-size: 1.2rem;
       color: #c70000;
     }
-
     button {
       background-color: #c70000;
       color: white;
@@ -55,7 +50,6 @@
     button:hover {
       background-color: #a80000;
     }
-
     #appSection input[type="text"],
     #appSection input[type="number"],
     #appSection textarea {
@@ -68,16 +62,13 @@
       font-size: 1rem;
       font-family: inherit;
     }
-
     #appSection textarea {
       resize: vertical;
     }
-
     #postMessage {
       margin-top: 0.5rem;
       font-weight: 600;
     }
-
     .post {
       border: 1px solid #ccc;
       border-radius: 12px;
@@ -86,28 +77,23 @@
       background: #fff0f0;
       box-shadow: 1px 1px 5px rgba(199, 0, 0, 0.2);
     }
-
     .post .postUser {
       font-weight: bold;
       color: #c70000;
       margin-bottom: 8px;
     }
-
     .post .postText {
       margin-bottom: 8px;
       font-size: 1.1rem;
     }
-
     .post img, .post video {
       max-width: 100%;
       border-radius: 10px;
       margin-bottom: 8px;
     }
-
     .marketplaceInfo div {
       margin: 3px 0;
     }
-
     .likeBtn {
       background-color: transparent;
       border: none;
@@ -116,7 +102,6 @@
       font-weight: bold;
       margin-right: 10px;
     }
-
     .liked {
       color: #a80000;
     }
@@ -124,273 +109,250 @@
 </head>
 <body>
 
-  <header>🔥 Pa Mwera</header>
+<header>🔥 Pa Mwera</header>
 
-  <main>
-    <div id="userInfo">
-      <span>Logged in as: <span id="userName">Guest</span></span>
-      <button id="logoutBtn" style="display:none;">Logout</button>
-    </div>
+<main>
+  <div id="userInfo">
+    <span>Logged in as: <span id="userName">Guest</span></span>
+    <button id="logoutBtn" style="display:none;">Logout</button>
+  </div>
 
-    <section id="appSection" style="display:none;">
-      <!-- Marketplace Post Form -->
-      <input id="itemName" type="text" placeholder="Item Name" />
-      <input id="itemPrice" type="number" min="0" step="0.01" placeholder="Price (e.g., 100.00)" />
-      <input id="itemLocation" type="text" placeholder="Location" />
-      <input id="itemContact" type="text" placeholder="Contact Info (phone/email)" />
-      <textarea id="postText" placeholder="What are you selling?" rows="3"></textarea>
-      <input id="postMedia" type="file" accept="image/*,video/*" />
-      <button id="postBtn">Post</button>
-      <p id="postMessage"></p>
-    </section>
+  <section id="appSection" style="display:none;">
+    <input id="itemName" type="text" placeholder="Item Name" />
+    <input id="itemPrice" type="number" min="0" step="0.01" placeholder="Price (e.g., 100.00)" />
+    <input id="itemLocation" type="text" placeholder="Location" />
+    <input id="itemContact" type="text" placeholder="Contact Info (phone/email)" />
+    <textarea id="postText" placeholder="What are you selling?" rows="3"></textarea>
+    <input id="postMedia" type="file" accept="image/*,video/*" />
+    <button id="postBtn">Post</button>
+    <p id="postMessage"></p>
+  </section>
 
-    <section id="postsSection"></section>
-  </main>
+  <section id="postsSection"></section>
+</main>
 
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      onSnapshot,
-      query,
-      orderBy,
-      serverTimestamp,
-      updateDoc,
-      doc
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
-    import {
-      getStorage,
-      ref,
-      uploadBytes,
-      getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+  import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js";
 
-    // Your Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC92g51j4qHlLgvf1GBHJfR58BlJ5rg7JQ",
-      authDomain: "pa-mwera-social.firebaseapp.com",
-      projectId: "pa-mwera-social",
-      storageBucket: "pa-mwera-social.appspot.com",
-      messagingSenderId: "255473977095",
-      appId: "1:255473977095:web:ef6afedb928070f60027a2"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyC92g51j4qHlLgvf1GBHJfR58BlJ5rg7JQ",
+    authDomain: "pa-mwera-social.firebaseapp.com",
+    projectId: "pa-mwera-social",
+    storageBucket: "pa-mwera-social.appspot.com",  // THIS MUST BE '.appspot.com'
+    messagingSenderId: "255473977095",
+    appId: "1:255473977095:web:ef6afedb928070f60027a2"
+  };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
 
-    // DOM elements
-    const userNameSpan = document.getElementById("userName");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const appSection = document.getElementById("appSection");
-    const postsSection = document.getElementById("postsSection");
+  const userNameSpan = document.getElementById("userName");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const appSection = document.getElementById("appSection");
+  const postsSection = document.getElementById("postsSection");
 
-    const itemNameInput = document.getElementById("itemName");
-    const itemPriceInput = document.getElementById("itemPrice");
-    const itemLocationInput = document.getElementById("itemLocation");
-    const itemContactInput = document.getElementById("itemContact");
-    const postText = document.getElementById("postText");
-    const postMedia = document.getElementById("postMedia");
-    const postBtn = document.getElementById("postBtn");
-    const postMessage = document.getElementById("postMessage");
+  const itemNameInput = document.getElementById("itemName");
+  const itemPriceInput = document.getElementById("itemPrice");
+  const itemLocationInput = document.getElementById("itemLocation");
+  const itemContactInput = document.getElementById("itemContact");
+  const postText = document.getElementById("postText");
+  const postMedia = document.getElementById("postMedia");
+  const postBtn = document.getElementById("postBtn");
+  const postMessage = document.getElementById("postMessage");
 
-    // Helper to clear post inputs
-    function clearPostInputs() {
-      itemNameInput.value = "";
-      itemPriceInput.value = "";
-      itemLocationInput.value = "";
-      itemContactInput.value = "";
-      postText.value = "";
-      postMedia.value = "";
+  function clearPostInputs() {
+    itemNameInput.value = "";
+    itemPriceInput.value = "";
+    itemLocationInput.value = "";
+    itemContactInput.value = "";
+    postText.value = "";
+    postMedia.value = "";
+  }
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      userNameSpan.textContent = user.email || "User";
+      appSection.style.display = "block";
+      logoutBtn.style.display = "inline-block";
+      loadPosts();
+    } else {
+      userNameSpan.textContent = "Guest";
+      appSection.style.display = "none";
+      logoutBtn.style.display = "none";
+      postsSection.innerHTML = "";
+    }
+  });
+
+  logoutBtn.addEventListener("click", async () => {
+    await signOut(auth);
+  });
+
+  postBtn.addEventListener("click", async () => {
+    postMessage.style.color = "red";
+
+    const text = postText.value.trim();
+    const mediaFile = postMedia.files[0];
+
+    const itemName = itemNameInput.value.trim();
+    const itemPrice = itemPriceInput.value.trim();
+    const itemLocation = itemLocationInput.value.trim();
+    const itemContact = itemContactInput.value.trim();
+
+    if (!text && !mediaFile) {
+      postMessage.textContent = "Please add text or media to post.";
+      return;
+    }
+    if (!itemName) {
+      postMessage.textContent = "Please enter the item name.";
+      return;
+    }
+    if (!itemPrice || isNaN(parseFloat(itemPrice)) || parseFloat(itemPrice) < 0) {
+      postMessage.textContent = "Please enter a valid price.";
+      return;
+    }
+    if (!itemLocation) {
+      postMessage.textContent = "Please enter the location.";
+      return;
+    }
+    if (!itemContact) {
+      postMessage.textContent = "Please enter contact information.";
+      return;
     }
 
-    // Authentication state change handler
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        userNameSpan.textContent = user.email || "User";
-        appSection.style.display = "block";
-        logoutBtn.style.display = "inline-block";
-        loadPosts();
-      } else {
-        userNameSpan.textContent = "Guest";
-        appSection.style.display = "none";
-        logoutBtn.style.display = "none";
-        postsSection.innerHTML = "";
-      }
-    });
+    postBtn.disabled = true;
+    postMessage.textContent = "Posting...";
 
-    // Logout button
-    logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-    });
+    let mediaURL = "";
+    let mediaType = "";
 
-    // Posting functionality
-    postBtn.addEventListener("click", async () => {
-      postMessage.style.color = "red";
-
-      const text = postText.value.trim();
-      const mediaFile = postMedia.files[0];
-
-      const itemName = itemNameInput.value.trim();
-      const itemPrice = itemPriceInput.value.trim();
-      const itemLocation = itemLocationInput.value.trim();
-      const itemContact = itemContactInput.value.trim();
-
-      if (!text && !mediaFile) {
-        postMessage.textContent = "Please add text or media to post.";
-        return;
-      }
-      if (!itemName) {
-        postMessage.textContent = "Please enter the item name.";
-        return;
-      }
-      if (!itemPrice || isNaN(parseFloat(itemPrice)) || parseFloat(itemPrice) < 0) {
-        postMessage.textContent = "Please enter a valid price.";
-        return;
-      }
-      if (!itemLocation) {
-        postMessage.textContent = "Please enter the location.";
-        return;
-      }
-      if (!itemContact) {
-        postMessage.textContent = "Please enter contact information.";
-        return;
+    try {
+      if (mediaFile) {
+        const mediaRef = ref(storage, `posts/${auth.currentUser.uid}/${Date.now()}_${mediaFile.name}`);
+        console.log("Uploading media to:", mediaRef.fullPath);
+        await uploadBytes(mediaRef, mediaFile);
+        mediaURL = await getDownloadURL(mediaRef);
+        mediaType = mediaFile.type.startsWith("video") ? "video" : "image";
+        console.log("Media uploaded, URL:", mediaURL);
       }
 
-      postBtn.disabled = true;
-      postMessage.textContent = "Posting...";
-
-      let mediaURL = "";
-      let mediaType = "";
-
-      try {
-        if (mediaFile) {
-          const mediaRef = ref(storage, `posts/${auth.currentUser.uid}/${Date.now()}_${mediaFile.name}`);
-          await uploadBytes(mediaRef, mediaFile);
-          mediaURL = await getDownloadURL(mediaRef);
-          mediaType = mediaFile.type.startsWith("video") ? "video" : "image";
-        }
-
-        await addDoc(collection(db, "posts"), {
-          userId: auth.currentUser.uid,
-          userName: userNameSpan.textContent,
-          text: text,
-          mediaURL: mediaURL,
-          mediaType: mediaType,
-          itemName: itemName,
-          itemPrice: parseFloat(itemPrice),
-          itemLocation: itemLocation,
-          itemContact: itemContact,
-          likes: [],
-          comments: [],
-          createdAt: serverTimestamp()
-        });
-
-        postMessage.style.color = "green";
-        postMessage.textContent = "Post created!";
-        clearPostInputs();
-      } catch (error) {
-        postMessage.textContent = "Error posting: " + error.message;
-      } finally {
-        postBtn.disabled = false;
-      }
-    });
-
-    // Load posts in real-time and render them
-    function loadPosts() {
-      postsSection.innerHTML = "Loading posts...";
-      const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-
-      onSnapshot(postsQuery, snapshot => {
-        postsSection.innerHTML = "";
-        if (snapshot.empty) {
-          postsSection.textContent = "No posts yet.";
-          return;
-        }
-
-        snapshot.forEach(docSnap => {
-          const post = docSnap.data();
-          const postDiv = document.createElement("div");
-          postDiv.classList.add("post");
-
-          // User name
-          const userDiv = document.createElement("div");
-          userDiv.classList.add("postUser");
-          userDiv.textContent = post.userName;
-          postDiv.appendChild(userDiv);
-
-          // Post text
-          if (post.text) {
-            const textDiv = document.createElement("div");
-            textDiv.classList.add("postText");
-            textDiv.textContent = post.text;
-            postDiv.appendChild(textDiv);
-          }
-
-          // Media (image/video)
-          if (post.mediaURL) {
-            if (post.mediaType === "image") {
-              const img = document.createElement("img");
-              img.src = post.mediaURL;
-              postDiv.appendChild(img);
-            } else if (post.mediaType === "video") {
-              const video = document.createElement("video");
-              video.src = post.mediaURL;
-              video.controls = true;
-              postDiv.appendChild(video);
-            }
-          }
-
-          // Marketplace info
-          const marketDiv = document.createElement("div");
-          marketDiv.classList.add("marketplaceInfo");
-          if (post.itemName) {
-            const itemNameDiv = document.createElement("div");
-            itemNameDiv.textContent = `Item: ${post.itemName}`;
-            marketDiv.appendChild(itemNameDiv);
-          }
-          if (post.itemPrice !== undefined) {
-            const priceDiv = document.createElement("div");
-            priceDiv.textContent = `Price: $${post.itemPrice.toFixed(2)}`;
-            marketDiv.appendChild(priceDiv);
-          }
-          if (post.itemLocation) {
-            const locationDiv = document.createElement("div");
-            locationDiv.textContent = `Location: ${post.itemLocation}`;
-            marketDiv.appendChild(locationDiv);
-          }
-          if (post.itemContact) {
-            const contactDiv = document.createElement("div");
-            contactDiv.textContent = `Contact: ${post.itemContact}`;
-            marketDiv.appendChild(contactDiv);
-          }
-          postDiv.appendChild(marketDiv);
-
-          // Likes & Comments placeholders (you can extend later)
-          const likeBtn = document.createElement("button");
-          likeBtn.textContent = `Like (${post.likes ? post.likes.length : 0})`;
-          likeBtn.classList.add("likeBtn");
-          postDiv.appendChild(likeBtn);
-
-          // Append post to postsSection
-          postsSection.appendChild(postDiv);
-        });
+      await addDoc(collection(db, "posts"), {
+        userId: auth.currentUser.uid,
+        userName: userNameSpan.textContent,
+        text: text,
+        mediaURL: mediaURL,
+        mediaType: mediaType,
+        itemName: itemName,
+        itemPrice: parseFloat(itemPrice),
+        itemLocation: itemLocation,
+        itemContact: itemContact,
+        likes: [],
+        comments: [],
+        createdAt: serverTimestamp()
       });
-    }
 
-  </script>
+      postMessage.style.color = "green";
+      postMessage.textContent = "Post created!";
+      clearPostInputs();
+    } catch (error) {
+      console.error("Error posting:", error);
+      postMessage.textContent = "Error posting: " + error.message;
+    } finally {
+      postBtn.disabled = false;
+    }
+  });
+
+  function loadPosts() {
+    postsSection.innerHTML = "Loading posts...";
+    const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+
+    onSnapshot(postsQuery, snapshot => {
+      postsSection.innerHTML = "";
+      if (snapshot.empty) {
+        postsSection.textContent = "No posts yet.";
+        return;
+      }
+
+      snapshot.forEach(docSnap => {
+        const post = docSnap.data();
+        const postDiv = document.createElement("div");
+        postDiv.classList.add("post");
+
+        const userDiv = document.createElement("div");
+        userDiv.classList.add("postUser");
+        userDiv.textContent = post.userName;
+        postDiv.appendChild(userDiv);
+
+        if (post.text) {
+          const textDiv = document.createElement("div");
+          textDiv.classList.add("postText");
+          textDiv.textContent = post.text;
+          postDiv.appendChild(textDiv);
+        }
+
+        if (post.mediaURL) {
+          if (post.mediaType === "image") {
+            const img = document.createElement("img");
+            img.src = post.mediaURL;
+            postDiv.appendChild(img);
+          } else if (post.mediaType === "video") {
+            const video = document.createElement("video");
+            video.src = post.mediaURL;
+            video.controls = true;
+            postDiv.appendChild(video);
+          }
+        }
+
+        const marketDiv = document.createElement("div");
+        marketDiv.classList.add("marketplaceInfo");
+        if (post.itemName) {
+          const itemNameDiv = document.createElement("div");
+          itemNameDiv.textContent = `Item: ${post.itemName}`;
+          marketDiv.appendChild(itemNameDiv);
+        }
+        if (post.itemPrice !== undefined) {
+          const priceDiv = document.createElement("div");
+          priceDiv.textContent = `Price: $${post.itemPrice.toFixed(2)}`;
+          marketDiv.appendChild(priceDiv);
+        }
+        if (post.itemLocation) {
+          const locationDiv = document.createElement("div");
+          locationDiv.textContent = `Location: ${post.itemLocation}`;
+          marketDiv.appendChild(locationDiv);
+        }
+        if (post.itemContact) {
+          const contactDiv = document.createElement("div");
+          contactDiv.textContent = `Contact: ${post.itemContact}`;
+          marketDiv.appendChild(contactDiv);
+        }
+        postDiv.appendChild(marketDiv);
+
+        postsSection.appendChild(postDiv);
+      });
+    });
+  }
+</script>
 
 </body>
 </html>
